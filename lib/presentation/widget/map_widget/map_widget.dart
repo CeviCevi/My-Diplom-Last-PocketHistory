@@ -8,7 +8,8 @@ import 'package:history/data/state_managment/gui_manager/gui_manager_cubit.dart'
 import 'package:latlong2/latlong.dart';
 
 class MapWidget extends StatefulWidget {
-  const MapWidget({super.key});
+  const MapWidget({super.key, this.chords});
+  final List<LatLng>? chords;
 
   @override
   State<MapWidget> createState() => _MapScreenState();
@@ -17,24 +18,26 @@ class MapWidget extends StatefulWidget {
 class _MapScreenState extends State<MapWidget> {
   late final MapController _mapController;
 
-  List<LatLng> get _mapPoints => const [
-    LatLng(53.902284, 27.561831),
-    LatLng(53.917085, 27.557222),
-    LatLng(53.904592, 27.554183),
-    LatLng(53.925848, 27.601126),
-    LatLng(52.082500, 23.655556),
-    LatLng(53.451389, 26.472778),
-    LatLng(53.223056, 26.691944),
-    LatLng(52.572222, 23.798056),
-    LatLng(53.677500, 23.829722),
-    LatLng(53.678056, 23.826389),
-    LatLng(55.190556, 30.205000),
-    LatLng(55.192500, 30.207222),
-    LatLng(52.423056, 31.015278),
-    LatLng(53.896389, 30.331944),
-    LatLng(55.485556, 28.758333),
-    LatLng(53.887500, 25.299722),
-  ];
+  List<LatLng> get _mapPoints =>
+      widget.chords ??
+      const [
+        LatLng(53.902284, 27.561831),
+        LatLng(53.917085, 27.557222),
+        LatLng(53.904592, 27.554183),
+        LatLng(53.925848, 27.601126),
+        LatLng(52.082500, 23.655556),
+        LatLng(53.451389, 26.472778),
+        LatLng(53.223056, 26.691944),
+        LatLng(52.572222, 23.798056),
+        LatLng(53.677500, 23.829722),
+        LatLng(53.678056, 23.826389),
+        LatLng(55.190556, 30.205000),
+        LatLng(55.192500, 30.207222),
+        LatLng(52.423056, 31.015278),
+        LatLng(53.896389, 30.331944),
+        LatLng(55.485556, 28.758333),
+        LatLng(53.887500, 25.299722),
+      ];
 
   @override
   void initState() {

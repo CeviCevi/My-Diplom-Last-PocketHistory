@@ -10,6 +10,7 @@ class CastleTextField extends StatefulWidget {
   final Function? searchNewObj;
   final Function? backToMainMenu;
   final EdgeInsetsGeometry padding;
+  final bool seeBorder;
 
   const CastleTextField({
     super.key,
@@ -20,6 +21,7 @@ class CastleTextField extends StatefulWidget {
     this.backToMainMenu,
     this.searchNewObj,
     this.searhObj = false,
+    this.seeBorder = false,
   });
 
   @override
@@ -58,11 +60,15 @@ class _CastleTextFieldState extends State<CastleTextField> {
       child: Row(
         children: [
           Expanded(
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 100),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: AppColor.white,
-                boxShadow: [textFieldShadow],
+                boxShadow: widget.seeBorder ? null : [textFieldShadow],
+                border: widget.seeBorder
+                    ? .all(color: AppColor.grey.withAlpha(200), width: 1.5)
+                    : null,
               ),
               child: TextField(
                 controller: widget.controller,

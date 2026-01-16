@@ -8,6 +8,7 @@ class TikTakButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final Color color;
   final int? colorIndex;
+  final bool? isActive;
 
   const TikTakButton({
     super.key,
@@ -17,6 +18,7 @@ class TikTakButton extends StatelessWidget {
     this.padding = const .fromLTRB(10, 0, 15, 0),
     this.color = AppColor.red,
     this.colorIndex,
+    this.isActive = false,
   });
 
   static List<Color> pastelColors = [
@@ -34,6 +36,7 @@ class TikTakButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final newIsActive = isActive ?? false;
     return Material(
       borderRadius: .circular(17),
       color: AppColor.white,
@@ -41,9 +44,17 @@ class TikTakButton extends StatelessWidget {
       child: InkWell(
         onTap: function,
         borderRadius: .circular(17),
-        child: Container(
+        child: AnimatedContainer(
           height: 10,
-          padding: padding,
+          duration: Duration(milliseconds: 300),
+          padding: icon != null ? padding : const .symmetric(horizontal: 15),
+          decoration: BoxDecoration(
+            border: .all(
+              color: newIsActive ? AppColor.red : Colors.transparent,
+              width: 3,
+            ),
+            borderRadius: .circular(17),
+          ),
           child: Row(
             children: [
               if (icon != null) ...[

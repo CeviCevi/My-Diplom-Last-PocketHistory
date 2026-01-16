@@ -28,7 +28,7 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
           widget.seeBackButton
               ? Positioned(
                   top: 0,
-                  left: 0,
+                  right: 0,
                   child: Container(
                     color: AppColor.white,
                     height: MediaQuery.of(context).size.height,
@@ -57,8 +57,8 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                   ),
                   if (widget.seeBackButton)
                     Positioned(
-                      top: 20,
-                      right: 0,
+                      top: 40,
+                      left: 0,
                       child: Container(
                         margin: const EdgeInsets.only(left: 20),
                         width: 52,
