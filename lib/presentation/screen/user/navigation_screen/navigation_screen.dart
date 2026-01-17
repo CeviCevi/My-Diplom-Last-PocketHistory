@@ -22,9 +22,21 @@ class _NavigationScreenState extends State<NavigationScreen> {
   ];
 
   final List<BottomNavigationBarItem> barItems = [
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Избранное'),
-    BottomNavigationBarItem(icon: Icon(Icons.castle_rounded), label: 'Поиск'),
-    BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Профиль'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.favorite_outline),
+      activeIcon: Icon(Icons.favorite_rounded),
+      label: 'Избранное',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.castle_outlined),
+      activeIcon: Icon(Icons.castle_rounded),
+      label: 'Поиск',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.person_outline),
+      activeIcon: Icon(Icons.person_rounded),
+      label: 'Профиль',
+    ),
   ];
 
   @override
@@ -43,7 +55,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
         selectedItemColor: AppColor.red,
         unselectedItemColor: Colors.grey,
         selectedIconTheme: IconThemeData(size: 30),
-        selectedLabelStyle: GoogleFonts.manrope(fontSize: 12),
+        backgroundColor: AppColor.white,
+        elevation: 5,
+        enableFeedback: true,
+        selectedLabelStyle: GoogleFonts.manrope(
+          fontSize: 12,
+          fontWeight: .bold,
+        ),
+
         showSelectedLabels: true,
         showUnselectedLabels: true,
       ),

@@ -1,13 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:history/const/fish/fish.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_shadow.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
-import 'package:history/presentation/screen/app/object/detail_object_screen.dart/detail_object_screen.dart';
+import 'package:history/domain/model/object_model/object_model.dart';
+import 'package:history/presentation/screen/app/object/detail_object_screen/detail_object_screen.dart';
 import 'package:history/presentation/widget/app/toast/modern_toast.dart';
 
 class FavoriteItem extends StatelessWidget {
-  const FavoriteItem({super.key});
+  final ObjectModel? model;
+  final Function? isDimissed;
+
+  const FavoriteItem({super.key, this.model, this.isDimissed});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +52,11 @@ class FavoriteItem extends StatelessWidget {
           ),
         );
       },
-      onDismissed: (direction) => modernToast(context),
+      onDismissed: (direction) {
+        userFav.removeWhere((obj) => obj.id == model?.id);
+        isDimissed?.call();
+        modernToast(context);
+      },
 
       child: Material(
         color: AppColor.white,
@@ -78,9 +89,11 @@ class FavoriteItem extends StatelessWidget {
                       ],
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                          "https://images.pexels.com/photos/13982312/pexels-photo-13982312.jpeg",
-                        ),
+                        image: model == null
+                            ? NetworkImage(
+                                "https://images.pexels.com/photos/13982312/pexels-photo-13982312.jpeg",
+                              )
+                            : MemoryImage(base64Decode(model!.imageBit!)),
                       ),
                     ),
                   ),
@@ -93,7 +106,7 @@ class FavoriteItem extends StatelessWidget {
                       children: [
                         SizedBox(height: 10),
                         Text(
-                          "Какойто замок",
+                          model?.label ?? "Какойто замок",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
@@ -103,7 +116,7 @@ class FavoriteItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Какойто адрес",
+                          model?.address ?? "Какойто адрес",
                           style: AppStyle.main.copyWith(
                             letterSpacing: .5,
                             fontSize: 12,
@@ -131,7 +144,7 @@ class FavoriteItem extends StatelessWidget {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    "Какойто тип",
+                                    model?.typeName ?? "Какойто тип",
                                     style: AppStyle.main.copyWith(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,

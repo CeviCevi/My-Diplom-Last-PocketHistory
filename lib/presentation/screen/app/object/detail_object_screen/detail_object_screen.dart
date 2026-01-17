@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
+import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/widget/app/button/action_button_menu.dart';
 import 'package:history/presentation/widget/app/button/comment_button.dart';
 import 'package:history/presentation/widget/text_field/expanded_text.dart';
@@ -7,13 +8,16 @@ import 'package:history/presentation/widget/text_field/object_label_text.dart';
 
 class DetailObjectScreen extends StatefulWidget {
   final bool seeBackButton;
-  const DetailObjectScreen({super.key, this.seeBackButton = false});
+  final ObjectModel? model;
+  const DetailObjectScreen({super.key, this.seeBackButton = false, this.model});
 
   @override
   State<DetailObjectScreen> createState() => _DetailObjectScreenState();
 }
 
 class _DetailObjectScreenState extends State<DetailObjectScreen> {
+  late final model = widget.model;
+
   @override
   void initState() {
     super.initState();
@@ -51,8 +55,8 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                   Positioned(
                     top: 220,
                     child: ObjectLabelText(
-                      label: "widget.place.label",
-                      address: "widget.place.address",
+                      label: model?.label ?? "widget.place.label",
+                      address: model?.label ?? "widget.place.address",
                     ),
                   ),
                   if (widget.seeBackButton)
@@ -97,7 +101,7 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                 isSaved: true,
               ),
 
-              ExpandableFactsMenu(factsText: "text"),
+              ExpandableFactsMenu(factsText: model?.about ?? "text"),
 
               CommentsButton(onPressed: () {}),
             ],

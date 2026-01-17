@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:history/const/fish/fish.dart';
+import 'package:history/const/style/app_style.dart';
 import 'package:history/presentation/screen/user/favorite_screen/widget/favorite_item.dart';
 import 'package:history/presentation/widget/app/text_field/castle_text_field/castle_text_field.dart';
 
@@ -35,13 +37,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           SizedBox(height: 50),
           CastleTextField(controller: controller, seeBorder: seeBorder),
           Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) => Padding(
-                padding: .symmetric(horizontal: 20, vertical: 10),
-                child: FavoriteItem(),
-              ),
-            ),
+            child: userFav.isNotEmpty
+                ? ListView.builder(
+                    itemCount: userFav.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: .symmetric(horizontal: 20, vertical: 10),
+                      child: FavoriteItem(
+                        model: userFav[index],
+                        isDimissed: () => setState(() {}),
+                      ),
+                    ),
+                  )
+                : Column(
+                    mainAxisAlignment: .center,
+                    crossAxisAlignment: .center,
+                    spacing: 5,
+                    children: [
+                      Icon(Icons.account_balance_rounded),
+                      Text("Нет избранных мест", style: AppStyle.main),
+                    ],
+                  ),
           ),
         ],
       ),

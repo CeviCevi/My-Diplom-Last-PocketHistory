@@ -65,7 +65,7 @@ class RouterService {
     log("void routeCloseAll", name: "RouterService");
   }
 
-  static void back(BuildContext context, navigetionScreen) {
+  static void back(BuildContext context) {
     Navigator.pop(context);
     log("void back", name: "RouterService");
   }

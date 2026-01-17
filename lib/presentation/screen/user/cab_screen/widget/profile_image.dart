@@ -4,8 +4,10 @@ import 'package:history/const/style/app_shadow.dart';
 
 class ProfileImage extends StatelessWidget {
   final ImageProvider<Object> image;
+  final double diametr;
   const ProfileImage({
     super.key,
+    this.diametr = 110,
     this.image = const NetworkImage(
       "https://img.freepik.com/free-photo/beautiful-african-woman-face-portrait-close-up_53876-148041.jpg",
     ),
@@ -15,8 +17,8 @@ class ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 110,
-        height: 110,
+        width: diametr,
+        height: diametr,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(360),
           border: .all(color: AppColor.white, width: 3),

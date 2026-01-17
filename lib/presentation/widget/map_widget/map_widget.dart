@@ -61,6 +61,7 @@ class _MapScreenState extends State<MapWidget> {
           initialZoom: 7,
           minZoom: 5,
           maxZoom: 25,
+          initialRotation: 0,
           cameraConstraint: CameraConstraint.contain(
             bounds: LatLngBounds(
               LatLng(48.0, 20.0), // Юго-запад
@@ -71,8 +72,8 @@ class _MapScreenState extends State<MapWidget> {
         children: [
           TileLayer(
             maxNativeZoom: 25,
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.flutter_map_example',
+            urlTemplate: "https://a.tile.openstreetmap.de/{z}/{x}/{y}.png",
+            userAgentPackageName: 'com.example.history',
           ),
           BlocBuilder<GuiManagerCubit, GuiManagerState>(
             builder: (context, state) {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,8 @@ import 'package:history/presentation/screen/user/navigation_screen/navigation_sc
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await CacheService.instance.init();
   await Supabase.initialize(
     url: Security.supaUrl,
@@ -18,7 +22,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: !kReleaseMode || !Platform.isAndroid,
       tools: const [...DevicePreview.defaultTools],
       builder: (context) => MainApp(),
     ),

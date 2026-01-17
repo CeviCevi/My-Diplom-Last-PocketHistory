@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history/data/state_managment/gui_manager/gui_manager_cubit.dart';
-import 'package:history/presentation/screen/app/object/detail_object_screen.dart/detail_object_screen.dart';
+import 'package:history/presentation/screen/app/object/detail_object_screen/detail_object_screen.dart';
 import 'package:history/presentation/widget/app/button/tik_tak_button.dart';
 import 'package:history/presentation/widget/app/text_field/castle_text_field/castle_text_field.dart';
 import 'package:history/presentation/widget/map_widget/map_widget.dart';

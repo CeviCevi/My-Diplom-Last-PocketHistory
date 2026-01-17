@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_style.dart';
+import 'package:history/const/text/app_path.dart';
+import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/profile_button.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/profile_image.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/settings_block.dart';
@@ -45,7 +48,12 @@ class _CabScreenState extends State<CabScreen> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.3,
                       decoration: BoxDecoration(
-                        color: Colors.red.withAlpha(100),
+                        image: DecorationImage(
+                          image: AssetImage(AppPath.imageProfileBg),
+                          fit: .cover,
+                          opacity: .2,
+                        ),
+                        //color: Colors.red.withAlpha(80),
                         borderRadius: BorderRadius.vertical(
                           bottom: Radius.elliptical(360, 45),
                         ),
@@ -67,6 +75,8 @@ class _CabScreenState extends State<CabScreen> {
                         ProfileButton(
                           text: "Предложить объект",
                           icon: Icons.account_balance_rounded,
+                          function: () =>
+                              RouterService.routeFade(context, CreateObject()),
                         ),
                         ProfileButton(
                           text: "Моя активность",

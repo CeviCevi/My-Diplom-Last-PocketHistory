@@ -19,6 +19,12 @@ dependencies:
   google_fonts: ^7.0.0
   flutter_bloc: ^9.1.1
   another_flushbar: ^1.12.32
+  image_picker: ^1.2.1
+  flutter_image_compress: ^2.4.0
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1
+  path: ^1.9.1
+  geolocator: ^14.0.2
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +33,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/app/
+    - assets/icon/
