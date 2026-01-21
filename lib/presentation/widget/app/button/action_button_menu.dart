@@ -59,9 +59,8 @@ class ActionsMenu extends StatelessWidget {
             ),
             _buildActionButton(
               icon: Icons.vrpano_outlined,
-              text: "AR",
+              text: "исследовать",
               onPressed: onQuizPressed,
-              isActive: false,
             ),
           ],
         ),

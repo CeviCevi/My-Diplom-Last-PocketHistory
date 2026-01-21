@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:history/const/fish/img/i.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_path.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
 import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
+import 'package:history/presentation/screen/auth/acivment_screen/achivment_screen.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/profile_button.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/profile_image.dart';
 import 'package:history/presentation/screen/user/cab_screen/widget/settings_block.dart';
+import 'package:history/presentation/screen/user/edit_profile_screen/edit_profile_screen.dart';
+import 'package:history/presentation/widget/app/toast/achive_toast.dart';
 
 class CabScreen extends StatefulWidget {
   const CabScreen({super.key});
@@ -60,14 +66,29 @@ class _CabScreenState extends State<CabScreen> {
                       ),
                     ),
                     SizedBox(height: 55),
-                    Text(
-                      "Пупкина Залупкина",
-                      style: AppStyle.main.copyWith(fontSize: 18),
+                    GestureDetector(
+                      onDoubleTap: () =>
+                          achievementToast(context, message: "Исследователь"),
+                      child: Text(
+                        "Free Pizza",
+                        style: AppStyle.main.copyWith(fontSize: 18),
+                      ),
                     ),
                     SizedBox(height: 5),
-                    Text("zalypkina@gmail.com", style: AppStyle.main),
+                    Text("nikitapytliak@gmail.com", style: AppStyle.main),
                     SizedBox(height: 25),
-                    SettingsBlock(),
+                    SettingsBlock(
+                      buttons: [
+                        ProfileButton(
+                          text: "Редактировать профиль",
+                          icon: Icons.edit,
+                          function: () => RouterService.routeFade(
+                            context,
+                            EditProfileScreen(),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 10),
                     SettingsBlock(
                       spacing: 1,
@@ -84,6 +105,10 @@ class _CabScreenState extends State<CabScreen> {
                         ),
                         ProfileButton(
                           text: "Мои достижения",
+                          function: () => RouterService.routeFade(
+                            context,
+                            AchievementsScreen(),
+                          ),
                           icon: Icons.workspace_premium_rounded,
                         ),
                       ],
@@ -110,7 +135,7 @@ class _CabScreenState extends State<CabScreen> {
                 left: 0,
                 right: 0,
                 top: MediaQuery.of(context).size.height * 0.3 - 70,
-                child: ProfileImage(),
+                child: ProfileImage(image: MemoryImage(base64Decode(i))),
               ),
             ],
           ),

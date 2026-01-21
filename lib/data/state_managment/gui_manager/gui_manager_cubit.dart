@@ -1,4 +1,7 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:history/domain/model/object_model/object_model.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'gui_manager_state.dart';
@@ -6,7 +9,12 @@ part 'gui_manager_state.dart';
 class GuiManagerCubit extends Cubit<GuiManagerState> {
   GuiManagerCubit() : super(GuiManagerState(objectScreenState: false));
 
-  void toggle() {
-    emit(GuiManagerState(objectScreenState: !(state.objectScreenState)));
+  void toggle({ObjectModel? model}) {
+    emit(
+      GuiManagerState(
+        objectScreenState: !(state.objectScreenState),
+        model: model,
+      ),
+    );
   }
 }

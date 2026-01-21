@@ -22,7 +22,7 @@ class ProfileImage extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(360),
           border: .all(color: AppColor.white, width: 3),
-          color: Colors.red,
+          color: AppColor.lightGrey,
           boxShadow: [AppShadow.boxMainShadow],
           image: DecorationImage(image: image, fit: BoxFit.cover),
         ),

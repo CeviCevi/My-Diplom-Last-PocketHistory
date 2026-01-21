@@ -65,7 +65,7 @@ class FavoriteItem extends StatelessWidget {
         child: InkWell(
           onTap: () => RouterService.routeFade(
             context,
-            DetailObjectScreen(seeBackButton: true),
+            DetailObjectScreen(seeBackButton: true, model: model),
           ),
           borderRadius: BorderRadius.circular(8),
           child: Container(

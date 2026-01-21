@@ -58,7 +58,7 @@ class _MapScreenState extends State<MapScreen> {
             children: [
               Positioned.fill(child: MapWidget()),
               if (state.objectScreenState)
-                Positioned.fill(child: DetailObjectScreen()),
+                Positioned.fill(child: DetailObjectScreen(model: state.model)),
               Padding(
                 padding: const .only(top: 40),
                 child: Column(

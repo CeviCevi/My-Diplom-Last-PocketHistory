@@ -3,9 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:history/const/fish/obj_fish.dart';
 import 'package:history/const/style/app_color.dart';
+import 'package:history/data/service/data%20services/map_service/object_service.dart';
 import 'package:history/data/state_managment/gui_manager/gui_manager_cubit.dart';
+import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:latlong2/latlong.dart';
+
+ObjectModel? findByLatLng(List<ObjectModel> list, double lat, double lng) {
+  const tolerance = 0.00001;
+
+  return list
+      .where(
+        (o) => (o.oX - lat).abs() < tolerance && (o.oY - lng).abs() < tolerance,
+      )
+      .cast<ObjectModel?>()
+      .firstOrNull;
+}
 
 class MapWidget extends StatefulWidget {
   const MapWidget({super.key, this.chords});
@@ -18,26 +32,25 @@ class MapWidget extends StatefulWidget {
 class _MapScreenState extends State<MapWidget> {
   late final MapController _mapController;
 
-  List<LatLng> get _mapPoints =>
-      widget.chords ??
-      const [
-        LatLng(53.902284, 27.561831),
-        LatLng(53.917085, 27.557222),
-        LatLng(53.904592, 27.554183),
-        LatLng(53.925848, 27.601126),
-        LatLng(52.082500, 23.655556),
-        LatLng(53.451389, 26.472778),
-        LatLng(53.223056, 26.691944),
-        LatLng(52.572222, 23.798056),
-        LatLng(53.677500, 23.829722),
-        LatLng(53.678056, 23.826389),
-        LatLng(55.190556, 30.205000),
-        LatLng(55.192500, 30.207222),
-        LatLng(52.423056, 31.015278),
-        LatLng(53.896389, 30.331944),
-        LatLng(55.485556, 28.758333),
-        LatLng(53.887500, 25.299722),
-      ];
+  //List<LatLng> get _mapPoints =>
+  // const [
+  //   LatLng(53.902284, 27.561831),
+  //   LatLng(53.917085, 27.557222),
+  //   LatLng(53.904592, 27.554183),
+  //   LatLng(53.925848, 27.601126),
+  //   LatLng(52.082500, 23.655556),
+  //   LatLng(53.451389, 26.472778),
+  //   LatLng(53.223056, 26.691944),
+  //   LatLng(52.572222, 23.798056),
+  //   LatLng(53.677500, 23.829722),
+  //   LatLng(53.678056, 23.826389),
+  //   LatLng(55.190556, 30.205000),
+  //   LatLng(55.192500, 30.207222),
+  //   LatLng(52.423056, 31.015278),
+  //   LatLng(53.896389, 30.331944),
+  //   LatLng(55.485556, 28.758333),
+  //   LatLng(53.887500, 25.299722),
+  // ];
 
   @override
   void initState() {
@@ -75,19 +88,26 @@ class _MapScreenState extends State<MapWidget> {
             urlTemplate: "https://a.tile.openstreetmap.de/{z}/{x}/{y}.png",
             userAgentPackageName: 'com.example.history',
           ),
-          BlocBuilder<GuiManagerCubit, GuiManagerState>(
-            builder: (context, state) {
-              return MarkerClusterLayerWidget(
-                options: MarkerClusterLayerOptions(
-                  size: const Size(40, 40),
-                  maxClusterRadius: 50,
-                  markers: _getMarkers(_mapPoints),
-                  builder: (_, markers) {
-                    return _ClusterMarker(
-                      markersLength: markers.length.toString(),
-                    );
-                  },
-                ),
+          FutureBuilder(
+            future: ObjectService().getChords(),
+            builder: (context, snapshot) {
+              return BlocBuilder<GuiManagerCubit, GuiManagerState>(
+                builder: (context, state) {
+                  return MarkerClusterLayerWidget(
+                    options: MarkerClusterLayerOptions(
+                      size: const Size(40, 40),
+                      maxClusterRadius: 50,
+                      markers: _getMarkers(
+                        snapshot.data == null ? [] : snapshot.data!,
+                      ),
+                      builder: (_, markers) {
+                        return _ClusterMarker(
+                          markersLength: markers.length.toString(),
+                        );
+                      },
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -103,7 +123,13 @@ class _MapScreenState extends State<MapWidget> {
       (index) => Marker(
         point: mapPoints[index],
         child: GestureDetector(
-          onTap: () => context.read<GuiManagerCubit>().toggle(),
+          onTap: () async => context.read<GuiManagerCubit>().toggle(
+            model: await ObjectService().findByLatLng(
+              mapPoints[index].latitude,
+              mapPoints[index].longitude,
+              list: modelsList,
+            ),
+          ),
           child: Icon(Icons.place_sharp, color: Colors.red, size: 30),
         ),
         width: 50,
