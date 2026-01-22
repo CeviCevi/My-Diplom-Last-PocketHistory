@@ -1,4 +1,5 @@
 import 'package:fuzzywuzzy/fuzzywuzzy.dart';
+import 'package:history/const/fish/db/db_fish.dart';
 import 'package:history/const/fish/fish.dart';
 import 'package:history/const/fish/obj_fish.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
@@ -14,6 +15,14 @@ class ObjectService {
     return data.isNotEmpty ? data.first : null;
   }
 
+  Future<List<ObjectModel>> getMyObject(int userId) async {
+    return modelsList.where((e) => e.creatorId == userId).toList();
+  }
+
+  Future<List<ObjectModel>> getMyOffer(int userId) async {
+    return offerList.where((e) => e.creatorId == userId).toList();
+  }
+
   Future<List<ObjectModel>> getObjects() async {
     return modelsList;
   }
@@ -23,7 +32,9 @@ class ObjectService {
     return modelsList.map((o) => LatLng(o.oX, o.oY)).toList();
   }
 
-  Future<void> offerObject(ObjectModel model) async {}
+  Future<void> offerObject(ObjectModel model) async {
+    offerList.add(model);
+  }
 
   Future<ObjectModel?> findByLatLng(
     double lat,

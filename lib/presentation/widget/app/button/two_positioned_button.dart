@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:history/const/style/app_color.dart';
 
 class TwoPositionButton extends StatefulWidget {
   final String leftLabel;
@@ -26,60 +27,75 @@ class _TwoPositionButtonState extends State<TwoPositionButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          /// Левая кнопка
-          GestureDetector(
-            onTap: () {
-              if (isRight) toggle();
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: isRight ? Colors.transparent : Colors.blue,
-                borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(12),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: .center,
+          children: [
+            /// Левая кнопка
+            GestureDetector(
+              onTap: () {
+                if (isRight) toggle();
+              },
+              child: AnimatedContainer(
+                width: MediaQuery.of(context).size.width / 2.5,
+                duration: Duration(milliseconds: 100),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
                 ),
-              ),
-              child: Text(
-                widget.leftLabel,
-                style: TextStyle(
-                  color: isRight ? Colors.black : Colors.white,
-                  fontWeight: FontWeight.bold,
+                decoration: BoxDecoration(
+                  color: isRight ? Colors.transparent : AppColor.red,
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  widget.leftLabel,
+                  textAlign: .center,
+                  style: TextStyle(
+                    color: isRight ? Colors.black : Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
 
-          /// Правая кнопка
-          GestureDetector(
-            onTap: () {
-              if (!isRight) toggle();
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: isRight ? Colors.blue : Colors.transparent,
-                borderRadius: const BorderRadius.horizontal(
-                  right: Radius.circular(12),
+            /// Правая кнопка
+            GestureDetector(
+              onTap: () {
+                if (!isRight) toggle();
+              },
+              child: AnimatedContainer(
+                width: MediaQuery.of(context).size.width / 2.5,
+                duration: Duration(milliseconds: 100),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
                 ),
-              ),
-              child: Text(
-                widget.rightLabel,
-                style: TextStyle(
-                  color: isRight ? Colors.white : Colors.black,
-                  fontWeight: FontWeight.bold,
+                decoration: BoxDecoration(
+                  color: isRight ? AppColor.red : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  widget.rightLabel,
+                  textAlign: .center,
+                  style: TextStyle(
+                    color: isRight ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

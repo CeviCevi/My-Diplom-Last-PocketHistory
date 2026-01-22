@@ -18,7 +18,16 @@ import 'package:history/presentation/widget/text_field/object_label_text.dart';
 class DetailObjectScreen extends StatefulWidget {
   final bool seeBackButton;
   final ObjectModel? model;
-  const DetailObjectScreen({super.key, this.seeBackButton = false, this.model});
+  final bool lookComments;
+  final bool lookAr;
+
+  const DetailObjectScreen({
+    super.key,
+    this.seeBackButton = false,
+    this.model,
+    this.lookComments = true,
+    this.lookAr = true,
+  });
 
   @override
   State<DetailObjectScreen> createState() => _DetailObjectScreenState();
@@ -123,10 +132,12 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   // --- Обновленный ActionsMenu с логикой избранного ---
                   ActionsMenu(
-                    onQuizPressed: () => RouterService.routeFade(
-                      context,
-                      MonumentInteractiveScreen(),
-                    ),
+                    onQuizPressed: widget.lookAr
+                        ? () => RouterService.routeFade(
+                            context,
+                            MonumentInteractiveScreen(),
+                          )
+                        : null,
                     onRoutePressed: () {
                       UrlService.openMapsRoute(
                         53.893009,
@@ -152,19 +163,23 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   ExpandableFactsMenu(factsText: model?.about ?? "text"),
 
-                  CommentsButton(
-                    onPressed: () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: AppColor.white,
-                      builder: (context) => ChatBottomSheet(
-                        currentUserId:
-                            CacheService.instance.getInt(AppKey.userInSystem) ??
-                            0,
-                        objectId: model?.id ?? 0,
-                      ),
-                    ),
-                  ),
+                  widget.lookComments
+                      ? CommentsButton(
+                          onPressed: () => showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: AppColor.white,
+                            builder: (context) => ChatBottomSheet(
+                              currentUserId:
+                                  CacheService.instance.getInt(
+                                    AppKey.userInSystem,
+                                  ) ??
+                                  0,
+                              objectId: model?.id ?? 0,
+                            ),
+                          ),
+                        )
+                      : Center(),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height),
