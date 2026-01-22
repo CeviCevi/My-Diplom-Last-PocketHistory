@@ -9,8 +9,11 @@ class CastleTextField extends StatefulWidget {
   final bool searhObj;
   final Function? searchNewObj;
   final Function? backToMainMenu;
+  final Function? whenClearTap;
   final EdgeInsetsGeometry padding;
-  final bool seeBorder;
+  final bool lookBorder;
+  final Widget? icon;
+  final BoxBorder? border;
 
   const CastleTextField({
     super.key,
@@ -18,10 +21,13 @@ class CastleTextField extends StatefulWidget {
     this.hintText = "Найти достопримечательность",
     this.padding = const .symmetric(horizontal: 20, vertical: 10),
     this.onChanged,
+    this.whenClearTap,
     this.backToMainMenu,
     this.searchNewObj,
     this.searhObj = false,
-    this.seeBorder = false,
+    this.lookBorder = false,
+    this.border,
+    this.icon = const Icon(Icons.castle_outlined, color: AppColor.grey),
   });
 
   @override
@@ -50,6 +56,7 @@ class _CastleTextFieldState extends State<CastleTextField> {
     if (widget.onChanged != null) {
       widget.onChanged!('');
     }
+    widget.whenClearTap?.call();
     setState(() {});
   }
 
@@ -65,9 +72,10 @@ class _CastleTextFieldState extends State<CastleTextField> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: AppColor.white,
-                boxShadow: widget.seeBorder ? null : [textFieldShadow],
-                border: widget.seeBorder
-                    ? .all(color: AppColor.grey.withAlpha(200), width: 1.5)
+                boxShadow: widget.lookBorder ? null : [textFieldShadow],
+                border: widget.lookBorder
+                    ? (widget.border ??
+                          .all(color: AppColor.grey.withAlpha(200), width: 1.5))
                     : null,
               ),
               child: TextField(
@@ -82,7 +90,7 @@ class _CastleTextFieldState extends State<CastleTextField> {
                     horizontal: 16,
                     vertical: 14,
                   ),
-                  prefixIcon: Icon(Icons.castle_outlined, color: AppColor.grey),
+                  prefixIcon: widget.icon,
                   suffixIcon: widget.controller.text.isNotEmpty
                       ? IconButton(
                           icon: Icon(Icons.close, color: AppColor.grey),

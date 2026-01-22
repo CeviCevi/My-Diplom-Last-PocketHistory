@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_shadow.dart';
-import 'package:history/presentation/screen/user/cab_screen/widget/profile_button.dart';
+import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_button.dart';
 
 class SettingsBlock extends StatelessWidget {
   final List<ProfileButton> buttons;

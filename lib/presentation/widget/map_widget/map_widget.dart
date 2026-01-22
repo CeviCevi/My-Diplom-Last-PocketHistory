@@ -5,21 +5,9 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:history/const/fish/obj_fish.dart';
 import 'package:history/const/style/app_color.dart';
-import 'package:history/data/service/data%20services/map_service/object_service.dart';
+import 'package:history/data/service/data%20services/object_service/object_service.dart';
 import 'package:history/data/state_managment/gui_manager/gui_manager_cubit.dart';
-import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:latlong2/latlong.dart';
-
-ObjectModel? findByLatLng(List<ObjectModel> list, double lat, double lng) {
-  const tolerance = 0.00001;
-
-  return list
-      .where(
-        (o) => (o.oX - lat).abs() < tolerance && (o.oY - lng).abs() < tolerance,
-      )
-      .cast<ObjectModel?>()
-      .firstOrNull;
-}
 
 class MapWidget extends StatefulWidget {
   const MapWidget({super.key, this.chords});
@@ -98,7 +86,8 @@ class _MapScreenState extends State<MapWidget> {
                       size: const Size(40, 40),
                       maxClusterRadius: 50,
                       markers: _getMarkers(
-                        snapshot.data == null ? [] : snapshot.data!,
+                        widget.chords ??
+                            (snapshot.data == null ? [] : snapshot.data!),
                       ),
                       builder: (_, markers) {
                         return _ClusterMarker(
@@ -129,6 +118,7 @@ class _MapScreenState extends State<MapWidget> {
               mapPoints[index].longitude,
               list: modelsList,
             ),
+            lookDetail: true,
           ),
           child: Icon(Icons.place_sharp, color: Colors.red, size: 30),
         ),

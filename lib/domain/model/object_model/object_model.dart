@@ -1,6 +1,7 @@
 // data/models/place_model/place_model.dart
 class ObjectModel {
   final int id;
+  final int creatorId;
   final String label;
   final String address;
   final String? imageBit;
@@ -12,6 +13,7 @@ class ObjectModel {
   const ObjectModel({
     required this.id,
     required this.label,
+    required this.creatorId,
     required this.address,
     required this.oX,
     required this.oY,
@@ -24,6 +26,7 @@ class ObjectModel {
   factory ObjectModel.fromJson(Map<String, dynamic> json) {
     return ObjectModel(
       id: json['id'] as int,
+      creatorId: json['creator_id'] as int,
       label: json['label'] as String,
       address: json['address'] as String,
       oX: (json['o_x'] as num).toDouble(),
@@ -38,6 +41,7 @@ class ObjectModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'creator_id': creatorId,
       'label': label,
       'address': address,
       'o_x': oX,
@@ -51,6 +55,7 @@ class ObjectModel {
   // Копирование с изменениями
   ObjectModel copyWith({
     int? id,
+    int? creatorid,
     String? label,
     String? address,
     String? imageBit,
@@ -63,6 +68,7 @@ class ObjectModel {
   }) {
     return ObjectModel(
       id: id ?? this.id,
+      creatorId: creatorid ?? creatorId,
       label: label ?? this.label,
       address: address ?? this.address,
       imageBit: imageBit ?? this.imageBit,

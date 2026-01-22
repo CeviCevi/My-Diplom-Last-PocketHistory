@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:history/const/fish/fish.dart';
 import 'package:history/const/style/app_color.dart';
+import 'package:history/const/text/app_key.dart';
+import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
 import 'package:history/data/service/url_service/url_service.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/interective_screen/interective_screen.dart';
 import 'package:history/presentation/widget/app/button/action_button_menu.dart';
 import 'package:history/presentation/widget/app/button/comment_button.dart';
+import 'package:history/presentation/widget/test/simple_chat.dart';
 import 'package:history/presentation/widget/text_field/expanded_text.dart';
 import 'package:history/presentation/widget/text_field/object_label_text.dart';
 
@@ -149,7 +152,19 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   ExpandableFactsMenu(factsText: model?.about ?? "text"),
 
-                  CommentsButton(onPressed: () {}),
+                  CommentsButton(
+                    onPressed: () => showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: AppColor.white,
+                      builder: (context) => ChatBottomSheet(
+                        currentUserId:
+                            CacheService.instance.getInt(AppKey.userInSystem) ??
+                            0,
+                        objectId: model?.id ?? 0,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height),

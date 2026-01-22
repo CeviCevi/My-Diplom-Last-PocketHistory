@@ -9,12 +9,7 @@ part 'gui_manager_state.dart';
 class GuiManagerCubit extends Cubit<GuiManagerState> {
   GuiManagerCubit() : super(GuiManagerState(objectScreenState: false));
 
-  void toggle({ObjectModel? model}) {
-    emit(
-      GuiManagerState(
-        objectScreenState: !(state.objectScreenState),
-        model: model,
-      ),
-    );
+  void toggle({ObjectModel? model, bool lookDetail = false}) {
+    emit(GuiManagerState(objectScreenState: lookDetail, model: model));
   }
 }

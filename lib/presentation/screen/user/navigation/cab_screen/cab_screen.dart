@@ -7,10 +7,11 @@ import 'package:history/const/text/app_path.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
 import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
 import 'package:history/presentation/screen/auth/acivment_screen/achivment_screen.dart';
-import 'package:history/presentation/screen/user/cab_screen/widget/profile_button.dart';
-import 'package:history/presentation/screen/user/cab_screen/widget/profile_image.dart';
-import 'package:history/presentation/screen/user/cab_screen/widget/settings_block.dart';
+import 'package:history/presentation/screen/user/activity_screen/activity_screen.dart';
 import 'package:history/presentation/screen/user/edit_profile_screen/edit_profile_screen.dart';
+import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_button.dart';
+import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_image.dart';
+import 'package:history/presentation/screen/user/navigation/cab_screen/widget/settings_block.dart';
 import 'package:history/presentation/widget/app/toast/achive_toast.dart';
 
 class CabScreen extends StatefulWidget {
@@ -102,6 +103,10 @@ class _CabScreenState extends State<CabScreen> {
                         ProfileButton(
                           text: "Моя активность",
                           icon: Icons.comment_rounded,
+                          function: () => RouterService.routeFade(
+                            context,
+                            ActivityScreen(),
+                          ),
                         ),
                         ProfileButton(
                           text: "Мои достижения",

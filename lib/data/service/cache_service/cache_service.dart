@@ -10,11 +10,12 @@ class CacheService {
     prefs = await .getInstance();
   }
 
-  //* Getter  
+  //* Getter
   String? getString(String key) => prefs.getString(key);
   bool? getBool(String key) => prefs.getBool(key);
   List? getStringList(String key) => prefs.getStringList(key);
   double? getDouble(String key) => prefs.getDouble(key);
+  int? getInt(String key) => prefs.getInt(key);
 
   //* Setter
   Future<bool> setBool(String key, bool value) async =>

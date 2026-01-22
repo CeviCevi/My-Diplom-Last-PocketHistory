@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:history/const/fish/fish.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_style.dart';
+import 'package:history/const/text/app_key.dart';
+import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/data/service/data%20services/object_service/object_service.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/create_object/widget/search_chord_map.dart';
 import 'package:history/presentation/widget/app/button/mopdern_icon_button.dart';
@@ -90,6 +92,7 @@ class _CreateObjectState extends State<CreateObject> {
   void createObject() {
     final object = ObjectModel(
       id: DateTime.now().millisecondsSinceEpoch,
+      creatorId: CacheService.instance.getInt(AppKey.userInSystem) ?? 0,
       label: _label.text,
       address: _address.text,
       oX: double.tryParse(_ox.text) ?? 0,
@@ -99,9 +102,7 @@ class _CreateObjectState extends State<CreateObject> {
       imageBit: imageBase64,
     );
 
-    debugPrint(object.imageBit?.substring(0, 30));
-
-    userCreate.add(object);
+    ObjectService().offerObject(object);
     successToast(context, message: "Отправлено на модерацию");
   }
 

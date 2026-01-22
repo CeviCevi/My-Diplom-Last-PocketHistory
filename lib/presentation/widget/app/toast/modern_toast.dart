@@ -12,24 +12,6 @@ Future<dynamic> modernToast(BuildContext context) async {
     borderRadius: BorderRadius.circular(12),
     backgroundColor: Colors.green,
     icon: Icon(Icons.check_circle, color: Colors.white, size: 28),
-    mainButton: TextButton(
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-      style: TextButton.styleFrom(
-        backgroundColor: Colors.white.withAlpha((255 * 0.2).toInt()),
-        padding: const .symmetric(horizontal: 16, vertical: 6),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      ),
-      child: Text(
-        'Отмена',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-      ),
-    ),
 
     forwardAnimationCurve: Curves.easeOutCubic,
     reverseAnimationCurve: Curves.easeInCubic,
