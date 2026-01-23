@@ -3,15 +3,9 @@ import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_shadow.dart';
 
 class ProfileImage extends StatelessWidget {
-  final ImageProvider<Object> image;
+  final DecorationImage? image;
   final double diametr;
-  const ProfileImage({
-    super.key,
-    this.diametr = 110,
-    this.image = const NetworkImage(
-      "https://img.freepik.com/free-photo/beautiful-african-woman-face-portrait-close-up_53876-148041.jpg",
-    ),
-  });
+  const ProfileImage({super.key, this.diametr = 110, this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +16,19 @@ class ProfileImage extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(360),
           border: .all(color: AppColor.white, width: 3),
-          color: AppColor.lightGrey,
+          color: Colors.grey[300],
           boxShadow: [AppShadow.boxMainShadow],
-          image: DecorationImage(image: image, fit: BoxFit.cover),
+          image: image,
+        ),
+        child: Center(
+          child: Text(
+            "?",
+            style: TextStyle(
+              fontWeight: .bold,
+              fontSize: 40,
+              color: AppColor.grey,
+            ),
+          ),
         ),
       ),
     );

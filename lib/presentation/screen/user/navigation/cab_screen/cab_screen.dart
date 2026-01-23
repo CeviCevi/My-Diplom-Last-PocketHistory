@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:history/const/fish/img/i.dart';
+import 'package:history/const/security/user.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_path.dart';
+import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
 import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
-import 'package:history/presentation/screen/auth/acivment_screen/achivment_screen.dart';
+import 'package:history/presentation/screen/auth/auth_screen.dart';
+import 'package:history/presentation/screen/user/acivment_screen/achivment_screen.dart';
 import 'package:history/presentation/screen/user/activity_screen/activity_screen.dart';
 import 'package:history/presentation/screen/user/edit_profile_screen/edit_profile_screen.dart';
 import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_button.dart';
@@ -41,8 +43,7 @@ class _CabScreenState extends State<CabScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 1.1,
-          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
               Positioned(
@@ -71,12 +72,12 @@ class _CabScreenState extends State<CabScreen> {
                       onDoubleTap: () =>
                           achievementToast(context, message: "Исследователь"),
                       child: Text(
-                        "Free Pizza",
+                        "${user.name} ${user.surname}",
                         style: AppStyle.main.copyWith(fontSize: 18),
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text("nikitapytliak@gmail.com", style: AppStyle.main),
+                    Text(user.email, style: AppStyle.main),
                     SizedBox(height: 25),
                     SettingsBlock(
                       buttons: [
@@ -124,14 +125,16 @@ class _CabScreenState extends State<CabScreen> {
                         ProfileButton(
                           text: "Выйти из аккаунта",
                           icon: Icons.exit_to_app_rounded,
-                        ),
-                        ProfileButton(
-                          text: "Удалить аккаунт",
-                          icon: Icons.delete_forever_outlined,
+                          function: () {
+                            CacheService.instance.clear();
+                            RouterService.routeCloseAll(
+                              context,
+                              RegisterScreen(),
+                            );
+                          },
                         ),
                       ],
                     ),
-                    SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -140,7 +143,13 @@ class _CabScreenState extends State<CabScreen> {
                 left: 0,
                 right: 0,
                 top: MediaQuery.of(context).size.height * 0.3 - 70,
-                child: ProfileImage(image: MemoryImage(base64Decode(i))),
+                child: ProfileImage(
+                  image: user.image != null
+                      ? DecorationImage(
+                          image: MemoryImage(base64Decode(user.image!)),
+                        )
+                      : null,
+                ),
               ),
             ],
           ),

@@ -29,9 +29,28 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _focusNode = FocusNode();
+
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   void _clearText() {
     setState(() {
-      widget.controller.text == "";
+      widget.controller.clear();
       widget.onChanged?.call('');
     });
   }
@@ -47,35 +66,58 @@ class _AppTextFieldState extends State<AppTextField> {
             ? null
             : [textFieldShadow.copyWith(blurRadius: 2)],
         border: widget.seeBorder
-            ? Border.all(color: AppColor.grey.withAlpha(200), width: 1.5)
+            ? Border.all(
+                color: _focusNode.hasFocus
+                    ? AppColor.red
+                    : AppColor.grey.withAlpha(200),
+                width: 1.5,
+              )
             : null,
       ),
       child: TextField(
         controller: widget.controller,
+        focusNode: _focusNode,
+
         keyboardType: widget.isMultiline
             ? TextInputType.multiline
             : widget.keyboardType,
+
         maxLines: widget.isMultiline ? null : 1,
         minLines: widget.isMultiline ? 4 : 1,
-        onChanged: (s) => setState(() => widget.onChanged?.call(s)),
+
+        onChanged: (s) {
+          setState(() {
+            widget.onChanged?.call(s);
+          });
+        },
+
         onEditingComplete: widget.onSubmit,
+
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: textHintStyle,
           border: InputBorder.none,
+
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 14,
           ),
-          prefixIcon: Icon(widget.icon, color: AppColor.grey),
+
+          /// Иконка меняет цвет при фокусе
+          prefixIcon: Icon(
+            widget.icon,
+            color: _focusNode.hasFocus ? AppColor.red : AppColor.grey,
+          ),
+
           suffixIcon: widget.controller.text.isNotEmpty
               ? IconButton(
-                  icon: Icon(Icons.close, color: AppColor.grey),
+                  icon: const Icon(Icons.close, color: AppColor.grey),
                   onPressed: _clearText,
                   splashRadius: 20,
                 )
               : null,
         ),
+
         style: textFieldStyle,
         cursorColor: AppColor.red,
       ),

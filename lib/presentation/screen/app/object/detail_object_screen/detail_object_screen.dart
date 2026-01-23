@@ -11,6 +11,7 @@ import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/interective_screen/interective_screen.dart';
 import 'package:history/presentation/widget/app/button/action_button_menu.dart';
 import 'package:history/presentation/widget/app/button/comment_button.dart';
+import 'package:history/presentation/widget/app/toast/no_reg_toast.dart';
 import 'package:history/presentation/widget/test/simple_chat.dart';
 import 'package:history/presentation/widget/text_field/expanded_text.dart';
 import 'package:history/presentation/widget/text_field/object_label_text.dart';
@@ -35,12 +36,13 @@ class DetailObjectScreen extends StatefulWidget {
 
 class _DetailObjectScreenState extends State<DetailObjectScreen> {
   late final model = widget.model;
-
+  bool userAuth = false;
   late bool isSave;
 
   @override
   void initState() {
     isSave = userFav.any((obj) => obj.id == widget.model?.id);
+    userAuth = CacheService.instance.getBool(AppKey.userAuth) ?? false;
 
     super.initState();
   }
@@ -150,10 +152,14 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                       );
                     },
                     onSavePressed: () {
-                      isSave
-                          ? userFav.removeWhere((obj) => obj.id == model?.id)
-                          : (model != null ? userFav.add(model!) : null);
-                      setState(() => isSave = !isSave);
+                      if (userAuth) {
+                        isSave
+                            ? userFav.removeWhere((obj) => obj.id == model?.id)
+                            : (model != null ? userFav.add(model!) : null);
+                        setState(() => isSave = !isSave);
+                      } else {
+                        notRegisteredToast(context);
+                      }
                     },
                     onSharePressed: () => UrlService.shareImageWithText(
                       model?.imageBit ?? "",
@@ -167,19 +173,21 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   widget.lookComments
                       ? CommentsButton(
-                          onPressed: () => showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: AppColor.white,
-                            builder: (context) => ChatBottomSheet(
-                              currentUserId:
-                                  CacheService.instance.getInt(
-                                    AppKey.userInSystem,
-                                  ) ??
-                                  0,
-                              objectId: model?.id ?? 0,
-                            ),
-                          ),
+                          onPressed: () => userAuth
+                              ? showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: AppColor.white,
+                                  builder: (context) => ChatBottomSheet(
+                                    currentUserId:
+                                        CacheService.instance.getInt(
+                                          AppKey.userInSystem,
+                                        ) ??
+                                        0,
+                                    objectId: model?.id ?? 0,
+                                  ),
+                                )
+                              : notRegisteredToast(context),
                         )
                       : Center(),
                 ],

@@ -24,6 +24,9 @@ class CacheService {
   Future<bool> setString(String key, String value) async =>
       await prefs.setString(key, value);
 
+  Future<bool> setInt(String key, int value) async =>
+      await prefs.setInt(key, value);
+
   //* Clear
   Future<bool> clear() async => await prefs.clear();
   Future<bool> remove(String key) async => await prefs.remove(key);

@@ -8,7 +8,7 @@ import 'package:history/const/security/security.dart';
 import 'package:history/const/style/app_theme.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/state_managment/gui_manager/gui_manager_cubit.dart';
-import 'package:history/presentation/screen/user/navigation/navigation_screen/navigation_screen.dart';
+import 'package:history/presentation/screen/auth/auth_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -44,7 +44,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.ligth,
         darkTheme: AppTheme.dark,
-        home: NavigationScreen(),
+        home: RegisterScreen(),
       ),
     );
   }

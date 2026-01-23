@@ -3,7 +3,7 @@ import 'package:history/const/style/app_color.dart';
 import 'package:history/data/service/achive_service/achive_service.dart';
 import 'package:history/data/service/text_service/date_formatter_service.dart';
 import 'package:history/domain/model/achive_model/user_achive_model.dart';
-import 'package:history/presentation/screen/auth/acivment_screen/function/find_icon.dart';
+import 'package:history/presentation/screen/user/acivment_screen/function/find_icon.dart';
 
 class AciveCard extends StatefulWidget {
   const AciveCard({super.key, required this.model});

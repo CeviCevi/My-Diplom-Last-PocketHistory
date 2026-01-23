@@ -5,7 +5,7 @@ import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/achive_service/achive_service.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
-import 'package:history/presentation/screen/auth/acivment_screen/widget/acive_card.dart';
+import 'package:history/presentation/screen/user/acivment_screen/widget/acive_card.dart';
 
 class AchievementsScreen extends StatelessWidget {
   AchievementsScreen({super.key});

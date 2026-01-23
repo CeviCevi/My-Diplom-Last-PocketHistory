@@ -24,6 +24,7 @@ class _PickLocationMapState extends State<PickLocationMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Выберите точку",
           style: AppStyle.main.copyWith(fontWeight: .bold, fontSize: 20),
