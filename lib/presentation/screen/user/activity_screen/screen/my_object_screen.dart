@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:history/const/style/app_color.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
@@ -54,7 +55,25 @@ class _MyObjectScreenState extends State<MyObjectScreen> {
                             ),
                       ),
                     )
-                  : Center();
+                  : Expanded(
+                      child: Column(
+                        mainAxisAlignment: .center,
+                        children: [
+                          Icon(Icons.map_rounded, color: AppColor.grey),
+                          Center(
+                            child: Text(
+                              'Нет ${isLeft ? "проверенных" : "предложенных"} объектов',
+                              style: TextStyle(
+                                fontWeight: .w500,
+                                fontSize: 16,
+                                color: AppColor.grey,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 60),
+                        ],
+                      ),
+                    );
             },
           ),
         ],

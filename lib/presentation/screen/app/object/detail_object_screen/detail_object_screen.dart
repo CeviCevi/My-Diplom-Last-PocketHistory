@@ -135,7 +135,9 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                     onQuizPressed: widget.lookAr
                         ? () => RouterService.routeFade(
                             context,
-                            MonumentInteractiveScreen(),
+                            MonumentInteractiveScreen(
+                              objectId: widget.model?.id ?? 0,
+                            ),
                           )
                         : null,
                     onRoutePressed: () {
