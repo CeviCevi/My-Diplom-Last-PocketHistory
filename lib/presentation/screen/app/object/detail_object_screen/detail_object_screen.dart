@@ -11,6 +11,7 @@ import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/interective_screen/interective_screen.dart';
 import 'package:history/presentation/widget/app/button/action_button_menu.dart';
 import 'package:history/presentation/widget/app/button/comment_button.dart';
+import 'package:history/presentation/widget/app/toast/empty_toast.dart';
 import 'package:history/presentation/widget/app/toast/no_reg_toast.dart';
 import 'package:history/presentation/widget/test/simple_chat.dart';
 import 'package:history/presentation/widget/text_field/expanded_text.dart';
@@ -134,14 +135,18 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   // --- Обновленный ActionsMenu с логикой избранного ---
                   ActionsMenu(
-                    onQuizPressed: widget.lookAr
+                    onQuizPressed: widget.lookAr && widget.model?.id == 1
                         ? () => RouterService.routeFade(
                             context,
                             MonumentInteractiveScreen(
                               objectId: widget.model?.id ?? 0,
                             ),
                           )
-                        : null,
+                        : () => emptyToast(
+                            context,
+                            label: "Временно недоступно",
+                            text: "Интерактивный просмотр временно отсутствует",
+                          ),
                     onRoutePressed: () {
                       UrlService.openMapsRoute(
                         53.893009,

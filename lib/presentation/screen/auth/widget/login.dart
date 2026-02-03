@@ -30,6 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+    return emailRegex.hasMatch(email);
+  }
+
+  bool _isValidPassword(String password) {
+    return password.length >= 6;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,11 +83,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
+                      final email = emailController.text.trim();
+                      final password = passwordController.text.trim();
+
+                      // Проверка email
+                      if (!_isValidEmail(email)) {
+                        errorToast(
+                          position: .TOP,
+                          context,
+                          message: "Введите корректный Email",
+                        );
+                        return;
+                      }
+
+                      // Проверка пароля
+                      if (!_isValidPassword(password)) {
+                        errorToast(
+                          context,
+                          position: .TOP,
+                          message: "Пароль должен быть не менее 6 символов",
+                        );
+                        return;
+                      }
+
                       setState(() => isLoading = true);
-                      if (await UserService().login(
-                        passwordController.text,
-                        emailController.text,
-                      )) {
+
+                      final success = await UserService().login(
+                        password,
+                        email,
+                      );
+
+                      if (success) {
                         RouterService.routeCloseAll(
                           context,
                           NavigationScreen(),
@@ -90,8 +125,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           message: "Неверные логин или пароль",
                         );
                       }
+
                       setState(() => isLoading = false);
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.red,
                       shape: RoundedRectangleBorder(

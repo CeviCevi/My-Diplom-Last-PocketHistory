@@ -2,12 +2,16 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
 
-Future<dynamic> errorToast(BuildContext context, {String? message}) async {
+Future<dynamic> errorToast(
+  BuildContext context, {
+  String? message,
+  FlushbarPosition position = FlushbarPosition.BOTTOM,
+}) async {
   return Flushbar(
     title: 'Ошибка!',
     message: message ?? 'Произошла непредвиденная ошибка',
     duration: const Duration(seconds: 4),
-    flushbarPosition: FlushbarPosition.BOTTOM,
+    flushbarPosition: position,
     flushbarStyle: FlushbarStyle.FLOATING,
     margin: const EdgeInsets.all(10),
     borderRadius: BorderRadius.circular(12),

@@ -31,6 +31,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.dispose();
   }
 
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+    return emailRegex.hasMatch(email);
+  }
+
+  bool _isValidPassword(String password) {
+    return password.length >= 6;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,33 +102,70 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (emailController.text.isNotEmpty &&
-                          passwordController.text.isNotEmpty &&
-                          nameController.text.isNotEmpty &&
-                          surnameController.text.isNotEmpty) {
-                        setState(() => isLoading = true);
-                        if (await UserService().registration(
-                          emailController.text,
-                          passwordController.text,
-                          nameController.text,
-                          surnameController.text,
-                        )) {
-                          RouterService.routeCloseAll(
-                            context,
-                            NavigationScreen(),
-                          );
-                          return;
-                        } else {
-                          errorToast(context, message: "Неверные данные");
-                        }
-                        setState(() => isLoading = false);
+                      final name = nameController.text.trim();
+                      final surname = surnameController.text.trim();
+                      final email = emailController.text.trim();
+                      final password = passwordController.text.trim();
+
+                      // Проверка на пустые поля
+                      if (name.isEmpty ||
+                          surname.isEmpty ||
+                          email.isEmpty ||
+                          password.isEmpty) {
+                        errorToast(
+                          context,
+                          position: .TOP,
+                          message: "Все поля должны быть заполнены",
+                        );
+                        return;
+                      }
+
+                      // Проверка email
+                      if (!_isValidEmail(email)) {
+                        errorToast(
+                          context,
+                          position: .TOP,
+                          message: "Введите корректный Email",
+                        );
+                        return;
+                      }
+
+                      // Проверка пароля
+                      if (!_isValidPassword(password)) {
+                        errorToast(
+                          context,
+                          position: .TOP,
+                          message: "Пароль должен быть не менее 6 символов",
+                        );
+                        return;
+                      }
+
+                      setState(() => isLoading = true);
+
+                      final success = await UserService().registration(
+                        email,
+                        password,
+                        name,
+                        surname,
+                      );
+
+                      if (success) {
+                        RouterService.routeCloseAll(
+                          context,
+                          NavigationScreen(),
+                        );
+                        return;
                       } else {
                         errorToast(
                           context,
-                          message: "Все поля должны быть заполнены",
+                          message: "Неверные данные",
+                          position: .TOP,
                         );
                       }
+
+                      setState(() => isLoading = false);
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.red,
                       shape: RoundedRectangleBorder(

@@ -5,6 +5,7 @@ import 'package:history/const/security/user.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/data/service/data%20services/user_service/user_service.dart';
 import 'package:history/presentation/widget/app/button/red_border_button.dart';
 import 'package:history/presentation/widget/app/toast/success_toast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -56,6 +57,17 @@ class _EditUserProfileScreenState extends State<EditProfileScreen> {
     debugPrint("Password: ${_password.text}");
     debugPrint("Avatar: ${avatarBase64 != null ? "YES" : "NO"}");
 
+    final updatedUser = user.copyWith(
+      name: _name.text,
+      surname: _surname.text,
+      image: avatarBase64,
+    );
+
+    UserService().update(updatedUser);
+
+    // ⚠️ ОБЯЗАТЕЛЬНО
+    user = updatedUser;
+
     successToast(context, message: "Данные успешно сохранены");
   }
 
@@ -81,7 +93,10 @@ class _EditUserProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
         leading: IconButton(
-          onPressed: () => RouterService.back(context),
+          onPressed: () {
+            RouterService.back(context);
+            widget.fuction?.call();
+          },
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
         backgroundColor: AppColor.lightGrey,

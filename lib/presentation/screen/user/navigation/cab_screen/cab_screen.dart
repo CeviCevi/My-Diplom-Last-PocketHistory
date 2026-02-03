@@ -86,7 +86,7 @@ class _CabScreenState extends State<CabScreen> {
                           icon: Icons.edit,
                           function: () => RouterService.routeFade(
                             context,
-                            EditProfileScreen(),
+                            EditProfileScreen(fuction: () => setState(() {})),
                           ),
                         ),
                       ],

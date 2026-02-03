@@ -1,10 +1,14 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-Future<dynamic> emptyToast(BuildContext context) async {
+Future<dynamic> emptyToast(
+  BuildContext context, {
+  String label = 'Ничего не найдено',
+  String text = 'Попробуйте изменить запрос поиска',
+}) async {
   return Flushbar(
-    title: 'Ничего не найдено',
-    message: 'Попробуйте изменить запрос поиска',
+    title: label,
+    message: text,
     duration: const Duration(seconds: 3),
     flushbarPosition: FlushbarPosition.BOTTOM,
     flushbarStyle: FlushbarStyle.FLOATING,

@@ -1,17 +1,25 @@
 import 'package:history/const/fish/db/db_fish.dart';
+import 'package:history/const/security/user.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/domain/model/user_model/user_model.dart';
 
 class UserService {
   Future<UserModel?> getUserById(int id) async {
-    return userList.where((element) => element.id == id).first;
+    var data = userList.where((element) => element.id == id);
+    return data.isNotEmpty ? data.first : null;
   }
 
   Future<void> update(UserModel model) async {
     final index = userList.indexWhere((u) => u.id == model.id);
     if (index != -1) {
       userList[index] = model;
+
+      user.copyWith(
+        name: model.name,
+        image: model.image,
+        surname: model.surname,
+      );
     }
   }
 
