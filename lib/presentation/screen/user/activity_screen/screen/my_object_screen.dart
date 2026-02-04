@@ -43,6 +43,7 @@ class _MyObjectScreenState extends State<MyObjectScreen> {
                         itemBuilder: (BuildContext context, int index) =>
                             MiniObjectCard(
                               model: snapshot.data![index],
+                              isRelease: isLeft,
                               onTap: () => RouterService.routeFade(
                                 context,
                                 DetailObjectScreen(
@@ -50,7 +51,7 @@ class _MyObjectScreenState extends State<MyObjectScreen> {
                                   model: snapshot.data![index],
                                   seeBackButton: true,
                                   lookComments: false,
-                                  lookAr: false,
+                                  lookAr: true,
                                 ),
                               ),
                             ),

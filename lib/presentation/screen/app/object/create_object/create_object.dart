@@ -9,14 +9,13 @@ import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/cache_service/router_service.dart';
-import 'package:history/data/service/data%20services/object_service/object_service.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
+import 'package:history/presentation/screen/app/object/create_object/widget/create_interactive/create_interactive.dart';
 import 'package:history/presentation/screen/app/object/create_object/widget/search_chord_map.dart';
 import 'package:history/presentation/widget/app/button/mopdern_icon_button.dart';
 import 'package:history/presentation/widget/app/button/red_border_button.dart';
 import 'package:history/presentation/widget/app/text_field/app_text_field/app_text_field.dart';
 import 'package:history/presentation/widget/app/toast/error_toast.dart';
-import 'package:history/presentation/widget/app/toast/success_toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -36,6 +35,7 @@ class _CreateObjectState extends State<CreateObject> {
   final _oy = TextEditingController();
 
   String? imageBase64;
+  int screenIndex = 0;
 
   final picker = ImagePicker();
 
@@ -89,7 +89,7 @@ class _CreateObjectState extends State<CreateObject> {
     });
   }
 
-  void createObject() {
+  ObjectModel createObject() {
     final object = ObjectModel(
       id: DateTime.now().millisecondsSinceEpoch,
       creatorId: CacheService.instance.getInt(AppKey.userInSystem) ?? 0,
@@ -103,8 +103,10 @@ class _CreateObjectState extends State<CreateObject> {
       imageBit: imageBase64,
     );
 
-    ObjectService().offerObject(object);
-    successToast(context, message: "Отправлено на модерацию");
+    // ObjectService().offerObject(object);
+    // RouterService.back(context);
+    // successToast(context, message: "Отправлено на модерацию");
+    return object;
   }
 
   Future<void> openMap() async {
@@ -151,99 +153,113 @@ class _CreateObjectState extends State<CreateObject> {
         shadowColor: AppColor.grey,
         elevation: 1,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            SizedBox(height: 15),
-            buildImagePreview(),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: .spaceAround,
-              children: [
-                MopdernIconButton(
-                  text: "Камера",
-                  icon: Icons.photo_camera,
-                  function: () => pickImage(ImageSource.camera),
-                ),
-                MopdernIconButton(
-                  text: "Галерея",
-                  icon: Icons.photo,
-                  function: () => pickImage(ImageSource.gallery),
-                ),
-              ],
+      body: Stack(
+        children: [
+          Scaffold(
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  SizedBox(height: 15),
+                  buildImagePreview(),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: .spaceAround,
+                    children: [
+                      MopdernIconButton(
+                        text: "Камера",
+                        icon: Icons.photo_camera,
+                        function: () => pickImage(ImageSource.camera),
+                      ),
+                      MopdernIconButton(
+                        text: "Галерея",
+                        icon: Icons.photo,
+                        function: () => pickImage(ImageSource.gallery),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 15),
+                  AppTextField(
+                    controller: _label,
+                    hintText: "Название",
+                    icon: Icons.castle_outlined,
+                  ),
+                  const SizedBox(height: 12),
+
+                  AppTextField(
+                    controller: _address,
+                    hintText: "Адрес",
+                    icon: Icons.location_on_outlined,
+                  ),
+                  const SizedBox(height: 12),
+
+                  AppTextField(
+                    controller: _typeName,
+                    hintText: "Тип",
+                    icon: Icons.category_outlined,
+                  ),
+                  const SizedBox(height: 12),
+
+                  AppTextField(
+                    controller: _about,
+                    hintText: "Описание",
+                    icon: Icons.description_outlined,
+                    isMultiline: true,
+                  ),
+                  const SizedBox(height: 30),
+
+                  AppTextField(
+                    controller: _ox,
+                    hintText: "X координата",
+                    icon: Icons.my_location,
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 12),
+
+                  AppTextField(
+                    controller: _oy,
+                    hintText: "Y координата",
+                    icon: Icons.my_location,
+                    keyboardType: TextInputType.number,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Row(
+                    mainAxisAlignment: .spaceAround,
+                    children: [
+                      MopdernIconButton(
+                        text: "Моя геолокация",
+                        icon: Icons.location_pin,
+                        function: getLocation,
+                      ),
+                      MopdernIconButton(
+                        text: "Найти на карте",
+                        icon: Icons.map_outlined,
+                        function: openMap,
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  RedBorderButton(
+                    function: () => setState(() => screenIndex = 1),
+                    text: "Продолжить",
+                  ),
+
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
-
-            const SizedBox(height: 15),
-            AppTextField(
-              controller: _label,
-              hintText: "Название",
-              icon: Icons.castle_outlined,
+          ),
+          if (screenIndex != 0)
+            MonumentCreatorScreen(
+              back: () => setState(() => screenIndex = 0),
+              savePart1: createObject(),
             ),
-            const SizedBox(height: 12),
-
-            AppTextField(
-              controller: _address,
-              hintText: "Адрес",
-              icon: Icons.location_on_outlined,
-            ),
-            const SizedBox(height: 12),
-
-            AppTextField(
-              controller: _typeName,
-              hintText: "Тип",
-              icon: Icons.category_outlined,
-            ),
-            const SizedBox(height: 12),
-
-            AppTextField(
-              controller: _about,
-              hintText: "Описание",
-              icon: Icons.description_outlined,
-              isMultiline: true,
-            ),
-            const SizedBox(height: 30),
-
-            AppTextField(
-              controller: _ox,
-              hintText: "X координата",
-              icon: Icons.my_location,
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 12),
-
-            AppTextField(
-              controller: _oy,
-              hintText: "Y координата",
-              icon: Icons.my_location,
-              keyboardType: TextInputType.number,
-            ),
-
-            const SizedBox(height: 12),
-
-            Row(
-              mainAxisAlignment: .spaceAround,
-              children: [
-                MopdernIconButton(
-                  text: "Моя геолокация",
-                  icon: Icons.location_pin,
-                  function: getLocation,
-                ),
-                MopdernIconButton(
-                  text: "Найти на карте",
-                  icon: Icons.map_outlined,
-                  function: openMap,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 30),
-
-            RedBorderButton(function: getLastFunction()),
-
-            const SizedBox(height: 30),
-          ],
-        ),
+        ],
       ),
     );
   }

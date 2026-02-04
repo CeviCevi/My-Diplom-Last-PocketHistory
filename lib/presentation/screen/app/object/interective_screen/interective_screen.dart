@@ -9,6 +9,7 @@ import 'package:history/data/service/cache_service/router_service.dart';
 import 'package:history/data/service/data%20services/ar_image_service/ar_image_service.dart';
 import 'package:history/data/service/data%20services/marker_service/marker_service.dart';
 import 'package:history/domain/model/marker_model/marker_info_model.dart';
+import 'package:history/presentation/widget/app/item/marker_item.dart';
 
 class MonumentInteractiveScreen extends StatefulWidget {
   final int objectId;
@@ -125,10 +126,22 @@ class _MonumentInteractiveScreenState extends State<MonumentInteractiveScreen>
                                   scale: isSelected
                                       ? _markerAnimation
                                       : const AlwaysStoppedAnimation(1.0),
-                                  child: const Icon(
-                                    Icons.flag_rounded,
-                                    color: Colors.red,
-                                    size: 35,
+                                  child: Column(
+                                    children: [
+                                      MarkerItem(),
+                                      Container(
+                                        height: 30,
+                                        width: 4,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          borderRadius: .circular(8),
+                                          border: .all(
+                                            width: .5,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

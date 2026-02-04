@@ -138,7 +138,7 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
 
                   // --- Обновленный ActionsMenu с логикой избранного ---
                   ActionsMenu(
-                    onQuizPressed: widget.lookAr && widget.model?.id == 1
+                    onQuizPressed: widget.lookAr
                         ? () => RouterService.routeFade(
                             context,
                             MonumentInteractiveScreen(

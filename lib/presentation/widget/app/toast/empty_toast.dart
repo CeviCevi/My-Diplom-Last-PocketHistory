@@ -5,6 +5,7 @@ Future<dynamic> emptyToast(
   BuildContext context, {
   String label = 'Ничего не найдено',
   String text = 'Попробуйте изменить запрос поиска',
+  IconData icon = Icons.search_off_rounded,
 }) async {
   return Flushbar(
     title: label,
@@ -16,7 +17,7 @@ Future<dynamic> emptyToast(
     borderRadius: BorderRadius.circular(12),
     backgroundColor: Colors.grey.shade800,
 
-    icon: const Icon(Icons.search_off_rounded, color: Colors.white, size: 28),
+    icon: Icon(icon, color: Colors.white, size: 28),
 
     forwardAnimationCurve: Curves.easeOutCubic,
     reverseAnimationCurve: Curves.easeInCubic,

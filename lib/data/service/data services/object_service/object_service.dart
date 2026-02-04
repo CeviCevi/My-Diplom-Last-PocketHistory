@@ -36,6 +36,11 @@ class ObjectService {
     offerList.add(model);
   }
 
+  Future<void> updateOffer(ObjectModel model) async {
+    modelsList.removeWhere((element) => element.id == model.id);
+    offerList.add(model);
+  }
+
   Future<ObjectModel?> findByLatLng(
     double lat,
     double lng, {
