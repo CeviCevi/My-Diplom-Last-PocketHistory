@@ -14,12 +14,14 @@ class CastleTextField extends StatefulWidget {
   final bool lookBorder;
   final Widget? icon;
   final BoxBorder? border;
+  final TextInputType? keyboardType;
 
   const CastleTextField({
     super.key,
     required this.controller,
     this.hintText = "Найти достопримечательность",
     this.padding = const .symmetric(horizontal: 20, vertical: 10),
+    this.keyboardType,
     this.onChanged,
     this.whenClearTap,
     this.backToMainMenu,
@@ -82,6 +84,7 @@ class _CastleTextFieldState extends State<CastleTextField> {
                 controller: widget.controller,
                 onChanged: widget.onChanged,
                 onEditingComplete: () => widget.searchNewObj?.call(),
+                keyboardType: widget.keyboardType,
                 decoration: InputDecoration(
                   hintText: widget.hintText,
                   hintStyle: textHintStyle,

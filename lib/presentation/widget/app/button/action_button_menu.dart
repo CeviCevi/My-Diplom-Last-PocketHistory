@@ -87,7 +87,7 @@ class ActionsMenu extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: isActive ? mainColor : Colors.grey[700],
+                  color: onPressed != null ? mainColor : Colors.grey[700],
                   size: 24,
                 ),
                 const SizedBox(height: 6),
@@ -96,7 +96,7 @@ class ActionsMenu extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isActive ? AppColor.red : Colors.grey[700],
+                    color: onPressed != null ? AppColor.red : Colors.grey[700],
                     fontWeight: FontWeight.w500,
                     height: 1.2,
                   ),

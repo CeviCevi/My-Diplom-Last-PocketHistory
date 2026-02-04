@@ -93,6 +93,7 @@ class _CreateObjectState extends State<CreateObject> {
     final object = ObjectModel(
       id: DateTime.now().millisecondsSinceEpoch,
       creatorId: CacheService.instance.getInt(AppKey.userInSystem) ?? 0,
+      status: 101,
       label: _label.text,
       address: _address.text,
       oX: double.tryParse(_ox.text) ?? 0,

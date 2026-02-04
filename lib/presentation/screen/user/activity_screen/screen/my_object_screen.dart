@@ -46,6 +46,7 @@ class _MyObjectScreenState extends State<MyObjectScreen> {
                               onTap: () => RouterService.routeFade(
                                 context,
                                 DetailObjectScreen(
+                                  isRelease: isLeft,
                                   model: snapshot.data![index],
                                   seeBackButton: true,
                                   lookComments: false,

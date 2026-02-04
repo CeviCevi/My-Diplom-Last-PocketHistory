@@ -22,7 +22,7 @@ class ProfileImage extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "?",
+            image == null ? "?" : "",
             style: TextStyle(
               fontWeight: .bold,
               fontSize: 40,

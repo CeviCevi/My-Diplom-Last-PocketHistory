@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:history/const/fish/fish.dart';
@@ -22,6 +23,7 @@ class DetailObjectScreen extends StatefulWidget {
   final ObjectModel? model;
   final bool lookComments;
   final bool lookAr;
+  final bool isRelease;
 
   const DetailObjectScreen({
     super.key,
@@ -29,6 +31,7 @@ class DetailObjectScreen extends StatefulWidget {
     this.model,
     this.lookComments = true,
     this.lookAr = true,
+    this.isRelease = true,
   });
 
   @override
@@ -39,11 +42,13 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
   late final model = widget.model;
   bool userAuth = false;
   late bool isSave;
+  late Uint8List bytes;
 
   @override
   void initState() {
     isSave = userFav.any((obj) => obj.id == widget.model?.id);
     userAuth = CacheService.instance.getBool(AppKey.userAuth) ?? false;
+    bytes = base64Decode(widget.model?.imageBit ?? "");
 
     super.initState();
   }
@@ -78,9 +83,7 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                         decoration: BoxDecoration(
                           color: Colors.grey.withAlpha((255 * 0.3).toInt()),
                           image: DecorationImage(
-                            image: MemoryImage(
-                              base64Decode(model?.imageBit ?? ""),
-                            ),
+                            image: MemoryImage(bytes),
                             fit: .cover,
                           ),
                         ),
@@ -156,16 +159,22 @@ class _DetailObjectScreenState extends State<DetailObjectScreen> {
                         context: context,
                       );
                     },
-                    onSavePressed: () {
-                      if (userAuth) {
-                        isSave
-                            ? userFav.removeWhere((obj) => obj.id == model?.id)
-                            : (model != null ? userFav.add(model!) : null);
-                        setState(() => isSave = !isSave);
-                      } else {
-                        notRegisteredToast(context);
-                      }
-                    },
+                    onSavePressed: widget.isRelease
+                        ? () {
+                            if (userAuth) {
+                              isSave
+                                  ? userFav.removeWhere(
+                                      (obj) => obj.id == model?.id,
+                                    )
+                                  : (model != null
+                                        ? userFav.add(model!)
+                                        : null);
+                              setState(() => isSave = !isSave);
+                            } else {
+                              notRegisteredToast(context);
+                            }
+                          }
+                        : null,
                     onSharePressed: () => UrlService.shareImageWithText(
                       model?.imageBit ?? "",
                       getGreatText(),

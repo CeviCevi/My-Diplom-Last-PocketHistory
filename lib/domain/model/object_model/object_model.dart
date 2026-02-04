@@ -9,6 +9,7 @@ class ObjectModel {
   final double oY;
   final String about;
   final String typeName;
+  final int status;
 
   const ObjectModel({
     required this.id,
@@ -19,6 +20,7 @@ class ObjectModel {
     required this.oY,
     required this.about,
     required this.typeName,
+    required this.status,
     this.imageBit,
   });
 
@@ -27,6 +29,7 @@ class ObjectModel {
     return ObjectModel(
       id: json['id'] as int,
       creatorId: json['creator_id'] as int,
+      status: json['status'] as int,
       label: json['label'] as String,
       address: json['address'] as String,
       oX: (json['o_x'] as num).toDouble(),
@@ -41,6 +44,7 @@ class ObjectModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'status': status,
       'creator_id': creatorId,
       'label': label,
       'address': address,
@@ -56,6 +60,7 @@ class ObjectModel {
   ObjectModel copyWith({
     int? id,
     int? creatorid,
+    int? status,
     String? label,
     String? address,
     String? imageBit,
@@ -68,6 +73,7 @@ class ObjectModel {
   }) {
     return ObjectModel(
       id: id ?? this.id,
+      status: status ?? this.status,
       creatorId: creatorid ?? creatorId,
       label: label ?? this.label,
       address: address ?? this.address,

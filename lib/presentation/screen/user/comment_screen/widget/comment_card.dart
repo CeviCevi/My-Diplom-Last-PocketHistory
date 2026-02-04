@@ -57,7 +57,13 @@ class CommentCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           // Текст комментария
-          Text(comment.about, style: const TextStyle(fontSize: 14)),
+          Text(
+            comment.about,
+            style: const TextStyle(fontSize: 14),
+            maxLines: 3,
+            overflow: .ellipsis,
+            softWrap: false,
+          ),
         ],
       ),
     );

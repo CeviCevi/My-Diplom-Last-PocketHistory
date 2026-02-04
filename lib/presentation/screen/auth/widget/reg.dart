@@ -53,6 +53,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 // Заголовок
                 const Text(
                   "Регистрация",
+                  textAlign: .center,
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -173,7 +174,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                     child: const Text(
-                      "Зарегистрироваться",
+                      "Продолжить",
                       style: TextStyle(
                         color: AppColor.white,
                         fontSize: 16,

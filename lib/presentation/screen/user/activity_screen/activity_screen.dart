@@ -38,18 +38,24 @@ class _ActivityScreenState extends State<ActivityScreen> {
     return GestureDetector(
       onTap: () => goToPage(index),
       child: AnimatedContainer(
+        width: MediaQuery.of(context).size.width / 2,
         duration: const Duration(milliseconds: 250),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
           color: isActive ? AppColor.red : AppColor.lightGrey,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.only(
+            bottomLeft: .circular(index == 0 ? 16 : 0),
+            bottomRight: .circular(index == 1 ? 16 : 0),
+          ),
           boxShadow: !isActive ? [AppShadow.boxMainShadow] : null,
         ),
-        child: Text(
-          title,
-          style: AppStyle.main.copyWith(
-            color: isActive ? AppColor.white : AppColor.grey,
-            fontWeight: FontWeight.bold,
+        child: Center(
+          child: Text(
+            title,
+            style: AppStyle.main.copyWith(
+              color: isActive ? AppColor.white : AppColor.grey,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -79,14 +85,11 @@ class _ActivityScreenState extends State<ActivityScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
-
           /// КНОПКИ
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _tabButton("Мои комментарии", 0),
-              const SizedBox(width: 12),
               _tabButton("Мои объекты", 1),
             ],
           ),

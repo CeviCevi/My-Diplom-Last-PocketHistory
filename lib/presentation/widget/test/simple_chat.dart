@@ -38,6 +38,7 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
           creatorId: widget.currentUserId,
           about: text,
           date: DateTime.now().toIso8601String(),
+          status: 101,
         ),
       );
       bottomController.clear();
@@ -83,7 +84,10 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: _commentService.getObjectComments(widget.objectId),
+                future: _commentService.getObjectComments(
+                  widget.objectId,
+                  userId: widget.currentUserId,
+                ),
                 builder: (context, snapshot) {
                   return snapshot.data?.isNotEmpty ?? false
                       ? ListView.builder(
@@ -99,6 +103,7 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                                   creatorId: snapshot.data![index].creatorId,
                                   about: snapshot.data![index].about,
                                   date: snapshot.data![index].date,
+                                  status: snapshot.data![index].status,
                                 ),
                                 currentUserId:
                                     CacheService.instance.getInt(
@@ -112,7 +117,10 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                       : Center(
                           child: Text(
                             "Комментарии отсутствуют",
-                            style: TextStyle(),
+                            style: TextStyle(
+                              color: AppColor.grey,
+                              fontWeight: .w400,
+                            ),
                           ),
                         );
                 },
@@ -134,12 +142,13 @@ class _ChatBottomSheetState extends State<ChatBottomSheet> {
                       Expanded(
                         child: CastleTextField(
                           controller: bottomController,
-                          hintText: "Напишите комментарий",
+                          hintText: "Опишите ваше впечатление",
                           icon: null,
                           lookBorder: true,
+                          keyboardType: .multiline,
                           border: Border.all(color: Colors.transparent),
                           padding: const EdgeInsets.all(0),
-                          searchNewObj: () => sendMessage.call(),
+                          //searchNewObj: () => sendMessage.call(),
                         ),
                       ),
                       IconButton(

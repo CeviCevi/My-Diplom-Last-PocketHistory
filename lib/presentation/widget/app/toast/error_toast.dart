@@ -15,7 +15,7 @@ Future<dynamic> errorToast(
     flushbarStyle: FlushbarStyle.FLOATING,
     margin: const EdgeInsets.all(10),
     borderRadius: BorderRadius.circular(12),
-    backgroundColor: AppColor.red,
+    backgroundColor: Colors.redAccent,
     icon: const Icon(Icons.error_outline, color: AppColor.white, size: 28),
     forwardAnimationCurve: Curves.easeOutCubic,
     reverseAnimationCurve: Curves.easeInCubic,

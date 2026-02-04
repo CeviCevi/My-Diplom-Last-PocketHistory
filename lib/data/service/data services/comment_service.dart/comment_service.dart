@@ -10,8 +10,17 @@ class CommentService {
     return commentList.where((element) => element.creatorId == userId).toList();
   }
 
-  Future<List<CommentModel>> getObjectComments(int objectId) async {
-    return commentList.where((e) => e.objectId == objectId).toList();
+  Future<List<CommentModel>> getObjectComments(
+    int objectId, {
+    int? userId,
+  }) async {
+    return commentList
+        .where(
+          (e) =>
+              e.objectId == objectId &&
+              (e.status == 102 || ((userId ?? 0) == e.creatorId)),
+        )
+        .toList();
   }
 
   Future<void> setComment(CommentModel comment) async {

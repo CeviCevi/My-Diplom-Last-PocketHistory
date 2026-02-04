@@ -122,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else {
                         errorToast(
                           context,
+                          position: .TOP,
                           message: "Неверные логин или пароль",
                         );
                       }
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: const Text(
-                      "Войти",
+                      "Продолжить",
                       style: TextStyle(
                         color: AppColor.white,
                         fontSize: 16,

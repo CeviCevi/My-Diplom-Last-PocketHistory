@@ -7,6 +7,7 @@ import 'package:history/domain/model/object_model/object_model.dart';
 final ObjectModel nesvizhCastle = ObjectModel(
   id: 3,
   creatorId: 999999,
+  status: 102,
   label: "Несвижский замок",
   address: "г. Несвиж, Минская область",
   oX: 53.2225,
@@ -20,6 +21,7 @@ final ObjectModel nesvizhCastle = ObjectModel(
 final ObjectModel mirCastle = ObjectModel(
   id: 2,
   creatorId: 999999,
+  status: 102,
   label: "Мирский замок",
   address: "г. Мир, Гродненская область",
   oX: 53.4513,
@@ -33,6 +35,7 @@ final ObjectModel mirCastle = ObjectModel(
 final ObjectModel belovezhskayaPushcha = ObjectModel(
   id: 4,
   creatorId: 999999,
+  status: 102,
   label: "Беловежская пуща",
   address: "Брестская и Гродненская области",
   oX: 52.7056,
@@ -46,6 +49,7 @@ final ObjectModel belovezhskayaPushcha = ObjectModel(
 final ObjectModel victorySquare = ObjectModel(
   id: 1,
   creatorId: 999999,
+  status: 102,
   label: "Площадь Победы",
   address: "г. Минск, проспект Независимости",
   oX: 53.9176,

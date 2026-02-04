@@ -4,6 +4,7 @@ class CommentModel {
   final int creatorId;
   final String about;
   final String date;
+  final int status;
 
   CommentModel({
     required this.id,
@@ -11,5 +12,6 @@ class CommentModel {
     required this.creatorId,
     required this.about,
     required this.date,
+    required this.status,
   });
 }

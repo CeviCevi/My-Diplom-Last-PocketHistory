@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
@@ -28,7 +27,7 @@ class BaseAuth extends StatelessWidget {
           text: "Войти",
         ),
         RedBorderButton(
-          bgColor: Colors.red,
+          bgColor: AppColor.red,
           color: AppColor.white,
           enabledBorder: false,
           function: register,

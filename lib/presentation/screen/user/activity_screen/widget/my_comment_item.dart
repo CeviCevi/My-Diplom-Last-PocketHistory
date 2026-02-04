@@ -68,9 +68,13 @@ class MyCommentCard extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 /// Дата
-                Text(
-                  "Дата: ${DateFormatterService.getGreatDate(comment.date)}",
-                  style: textHintStyle.copyWith(fontSize: 14),
+                Row(
+                  children: [
+                    Text(
+                      "Дата: ${DateFormatterService.getGreatDate(comment.date)}",
+                      style: textHintStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 20),
@@ -121,6 +125,14 @@ class MyCommentCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  String getStatusByString(int status) {
+    var line;
+    if (status == 101) line = "В модерации";
+    if (status == 102) line = "Одобренно";
+    if (status == 102) line = "Заблокировано";
+    return line;
   }
 
   @override
@@ -177,9 +189,32 @@ class MyCommentCard extends StatelessWidget {
                 const SizedBox(height: 8),
 
                 /// Дата
-                Text(
-                  DateFormatterService.getGreatDate(comment.date),
-                  style: textHintStyle.copyWith(fontSize: 12),
+                Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        DateFormatterService.getGreatDate(comment.date),
+                        style: textHintStyle.copyWith(fontSize: 12),
+                      ),
+                    ),
+
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            "Статус: ",
+                            style: textHintStyle.copyWith(fontSize: 12),
+                          ),
+                          Text(
+                            getStatusByString(comment.status),
+                            style: textHintStyle.copyWith(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
