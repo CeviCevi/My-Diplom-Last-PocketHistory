@@ -5,12 +5,13 @@ import 'package:history/const/security/user.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_path.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
-import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
 import 'package:history/presentation/screen/auth/auth_screen.dart';
 import 'package:history/presentation/screen/user/acivment_screen/achivment_screen.dart';
 import 'package:history/presentation/screen/user/activity_screen/activity_screen.dart';
 import 'package:history/presentation/screen/user/edit_profile_screen/edit_profile_screen.dart';
+import 'package:history/presentation/screen/user/game/game_screen/game_screen.dart';
 import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_button.dart';
 import 'package:history/presentation/screen/user/navigation/cab_screen/widget/profile_image.dart';
 import 'package:history/presentation/screen/user/navigation/cab_screen/widget/settings_block.dart';
@@ -87,6 +88,19 @@ class _CabScreenState extends State<CabScreen> {
                           function: () => RouterService.routeFade(
                             context,
                             EditProfileScreen(fuction: () => setState(() {})),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    SettingsBlock(
+                      buttons: [
+                        ProfileButton(
+                          text: "Забег во времени",
+                          icon: Icons.games_rounded,
+                          function: () => RouterService.routeFade(
+                            context,
+                            GameMenuScreen(),
                           ),
                         ),
                       ],

@@ -95,6 +95,18 @@ List<AchiveModel> appAchiveList = [
     text: "Изучить первый объект",
     iconName: "map",
   ),
+  AchiveModel(
+    id: 2,
+    title: "Молодая Кровь",
+    text: "Зарегистрироваться в приложении",
+    iconName: "visibility",
+  ),
+  AchiveModel(
+    id: 3,
+    title: "Молодая Кровь",
+    text: "Зарегистрироваться в приложении",
+    iconName: "visibility",
+  ),
 ];
 
 List<CommentModel> commentList = [];

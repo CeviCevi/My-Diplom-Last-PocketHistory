@@ -4,7 +4,7 @@ import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/achive_service/achive_service.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
-import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/presentation/screen/user/acivment_screen/widget/acive_card.dart';
 
 class AchievementsScreen extends StatelessWidget {
@@ -79,7 +79,18 @@ class AchievementsScreen extends StatelessWidget {
                 )
               : Column(
                   mainAxisAlignment: .center,
-                  children: [Center(child: Text("data"))],
+                  children: [
+                    Icon(Icons.add_reaction, color: AppColor.grey),
+                    Center(
+                      child: Text(
+                        "Вы еще не получали достижения",
+                        style: TextStyle(
+                          color: AppColor.grey,
+                          fontWeight: .w500,
+                        ),
+                      ),
+                    ),
+                  ],
                 );
         },
       ),

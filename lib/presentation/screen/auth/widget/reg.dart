@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
-import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/const/text/app_key.dart';
+import 'package:history/data/service/achive_service/achive_service.dart';
+import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/data%20services/user_service/user_service.dart';
+import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/presentation/screen/user/navigation/navigation_screen/navigation_screen.dart';
 import 'package:history/presentation/widget/app/text_field/auth_text_field/auth_text_field.dart';
+import 'package:history/presentation/widget/app/toast/achive_toast.dart';
 import 'package:history/presentation/widget/app/toast/error_toast.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -155,6 +159,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           context,
                           NavigationScreen(),
                         );
+                        AchiveService().setUserAchiveById(
+                          userId:
+                              CacheService.instance.getInt(
+                                AppKey.userInSystem,
+                              ) ??
+                              0,
+                          achiveId: 3,
+                        );
+                        achievementToast(context);
                         return;
                       } else {
                         errorToast(

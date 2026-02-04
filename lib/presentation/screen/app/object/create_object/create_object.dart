@@ -8,7 +8,7 @@ import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/const/text/app_key.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
-import 'package:history/data/service/cache_service/router_service.dart';
+import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/create_object/widget/create_interactive/create_interactive.dart';
 import 'package:history/presentation/screen/app/object/create_object/widget/search_chord_map.dart';
@@ -53,16 +53,15 @@ class _CreateObjectState extends State<CreateObject> {
     }
   }
 
-  GestureTapCallback? getLastFunction() {
+  bool? getLastFunction() {
     return (_label.text != "" &&
-            _address.text != "" &&
-            _about.text != "" &&
-            _typeName.text != "" &&
-            _ox.text != "" &&
-            _oy.text != "" &&
-            imageBase64 != "")
-        ? createObject.call
-        : () => errorToast(context, message: "Не все поля заполнены");
+        _address.text != "" &&
+        _about.text != "" &&
+        _typeName.text != "" &&
+        _ox.text != "" &&
+        _oy.text != "" &&
+        imageBase64 != "");
+    //: () => errorToast(context, message: "Не все поля заполнены");
   }
 
   Future<void> getLocation() async {
@@ -245,7 +244,14 @@ class _CreateObjectState extends State<CreateObject> {
                   const SizedBox(height: 30),
 
                   RedBorderButton(
-                    function: () => setState(() => screenIndex = 1),
+                    function: () {
+                      getLastFunction() ?? false
+                          ? setState(() => screenIndex = 0)
+                          : errorToast(
+                              context,
+                              message: "Не все поля заполнены",
+                            );
+                    },
                     text: "Продолжить",
                   ),
 
@@ -256,7 +262,9 @@ class _CreateObjectState extends State<CreateObject> {
           ),
           if (screenIndex != 0)
             MonumentCreatorScreen(
-              back: () => setState(() => screenIndex = 0),
+              back: () {
+                setState(() => screenIndex = 1);
+              },
               savePart1: createObject(),
             ),
         ],
