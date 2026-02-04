@@ -1,13 +1,17 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_style.dart';
+import 'package:history/const/text/app_key.dart';
+import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
+import 'package:history/presentation/screen/user/game/game_play/game_play_screen.dart';
 import 'package:history/presentation/widget/app/button/red_border_button.dart';
 
-// Временная модель для участника
+// Модель для участника
 class PlayerStatus {
   final String name;
   bool isReady;
@@ -26,15 +30,51 @@ class GameLobbyScreen extends StatefulWidget {
 }
 
 class _GameLobbyScreenState extends State<GameLobbyScreen> {
-  // Список участников со статусами
-  final List<PlayerStatus> players = [
-    PlayerStatus(name: "Вы (Организатор)", isReady: true, isHost: true),
-    PlayerStatus(name: "Алексей", isReady: true),
-    PlayerStatus(name: "Мария", isReady: false),
-    PlayerStatus(name: "Дмитрий", isReady: true),
-  ];
-
+  // Изначально список содержит только вас
+  late List<PlayerStatus> players;
   ObjectModel? selectedObject;
+  Timer? _readyTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    players = [
+      PlayerStatus(name: "Вы (Организатор)", isReady: true, isHost: true),
+    ];
+
+    // Эмуляция 1: Через 3 секунды заходит новый участник
+    Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          players.add(PlayerStatus(name: "Никита Грищук", isReady: false));
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _readyTimer?.cancel();
+    super.dispose();
+  }
+
+  // Эмуляция 2: Через 3 секунды после выбора локации игрок становится готов
+  void _startEmulateReady() {
+    _readyTimer?.cancel();
+    _readyTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted && players.length > 1) {
+        setState(() {
+          // Находим первого, кто не хост и еще не готов
+          for (var p in players) {
+            if (!p.isHost && !p.isReady) {
+              p.isReady = true;
+              break;
+            }
+          }
+        });
+      }
+    });
+  }
 
   void _selectRandomObject() {
     if (widget.availableObjects.isNotEmpty) {
@@ -43,63 +83,60 @@ class _GameLobbyScreenState extends State<GameLobbyScreen> {
         selectedObject = widget
             .availableObjects[random.nextInt(widget.availableObjects.length)];
       });
+      _startEmulateReady();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppColor.red,
       body: Column(
         children: [
-          // Верхняя часть (1/3)
-          Row(
-            mainAxisAlignment: .spaceAround,
-            children: [
-              IconButton(
-                onPressed: () => RouterService.back(context),
-                icon: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: AppColor.white,
+          // Верхняя часть (Шапка)
+          SafeArea(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () => RouterService.back(context),
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_outlined,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              Container(
-                height: size.height * 0.25,
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 20),
                     Text(
                       "Лобби",
                       style: AppStyle.main.copyWith(
                         color: Colors.white,
-                        fontSize: 32,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "Код комнаты: 5829",
+                      "Код комнаты: ${(CacheService.instance.getInt(AppKey.userInSystem)).hashCode}",
                       style: AppStyle.main.copyWith(
                         color: Colors.white70,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ],
                 ),
-              ),
-              IconButton(
-                onPressed: null,
-                icon: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: AppColor.red,
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_outlined,
+                    color: Colors.transparent,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+
+          const SizedBox(height: 20),
 
           // Белый контейнер
           Expanded(
@@ -116,7 +153,7 @@ class _GameLobbyScreenState extends State<GameLobbyScreen> {
                   _title("Участники (${players.length})"),
                   const SizedBox(height: 10),
 
-                  // Список игроков с галочками/крестиками
+                  // Список игроков
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
@@ -167,6 +204,7 @@ class _GameLobbyScreenState extends State<GameLobbyScreen> {
                       Expanded(
                         child: DropdownButtonFormField<ObjectModel>(
                           value: selectedObject,
+                          isExpanded: true,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: AppColor.lightGrey,
@@ -188,8 +226,10 @@ class _GameLobbyScreenState extends State<GameLobbyScreen> {
                               ),
                             );
                           }).toList(),
-                          onChanged: (val) =>
-                              setState(() => selectedObject = val),
+                          onChanged: (val) {
+                            setState(() => selectedObject = val);
+                            _startEmulateReady();
+                          },
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -212,22 +252,24 @@ class _GameLobbyScreenState extends State<GameLobbyScreen> {
 
                   const SizedBox(height: 30),
 
-                  // Кнопка Старт (проверяет и выбор объекта, и готовность всех)
+                  // Кнопка Старт
                   SizedBox(
                     width: double.infinity,
                     child: RedBorderButton(
                       text: "НАЧАТЬ",
-                      function: (selectedObject != null)
+                      function:
+                          (selectedObject != null &&
+                              players.every((p) => p.isReady))
                           ? () {
-                              // Проверка: все ли готовы (кроме хоста)
-                              bool allReady = players.every((p) => p.isReady);
-                              if (allReady) {
-                                print("Запуск игры!");
-                              } else {
-                                // Можно вывести тост "Не все игроки готовы"
-                              }
+                              debugPrint(
+                                "Игра начинается на локации: ${selectedObject!.label}",
+                              );
+                              RouterService.routeFade(
+                                context,
+                                GamePlayScreen(model: selectedObject!),
+                              );
                             }
-                          : null,
+                          : null, // Кнопка заблокирована, если не все готовы или объект не выбран
                     ),
                   ),
                 ],

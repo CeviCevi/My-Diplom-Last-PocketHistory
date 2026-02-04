@@ -246,7 +246,7 @@ class _CreateObjectState extends State<CreateObject> {
                   RedBorderButton(
                     function: () {
                       getLastFunction() ?? false
-                          ? setState(() => screenIndex = 0)
+                          ? setState(() => screenIndex = 1)
                           : errorToast(
                               context,
                               message: "Не все поля заполнены",
@@ -263,7 +263,7 @@ class _CreateObjectState extends State<CreateObject> {
           if (screenIndex != 0)
             MonumentCreatorScreen(
               back: () {
-                setState(() => screenIndex = 1);
+                setState(() => screenIndex = 0);
               },
               savePart1: createObject(),
             ),

@@ -4,6 +4,8 @@ import 'package:history/const/fish/obj_fish.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/style/app_style.dart';
 import 'package:history/data/service/router_service/router_service.dart';
+import 'package:history/presentation/screen/user/game/active_games/active_games.dart';
+import 'package:history/presentation/screen/user/game/join_game/join_game_screen.dart';
 import 'package:history/presentation/screen/user/game/lobby_screen/lobby_screen.dart';
 
 class GameMenuScreen extends StatelessWidget {
@@ -77,17 +79,14 @@ class GameMenuScreen extends StatelessWidget {
                     _buildMenuButton(
                       icon: Icons.login_rounded,
                       label: "Присоединиться",
-                      onTap: () {
-                        // Логика входа
-                      },
+                      onTap: () => _showJoinCodeDialog(context),
                     ),
                     const SizedBox(height: 16),
                     _buildMenuButton(
                       icon: Icons.access_time_rounded,
                       label: "Проходящие игры",
-                      onTap: () {
-                        // Список игр
-                      },
+                      onTap: () =>
+                          RouterService.routeFade(context, ActiveGamesScreen()),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 5),
                     CupertinoButton(
@@ -143,6 +142,79 @@ class GameMenuScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showJoinCodeDialog(BuildContext context) {
+    final TextEditingController codeController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          "Введите код комнаты",
+          style: AppStyle.main.copyWith(fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Попросите код у организатора игры",
+              style: TextStyle(color: Colors.grey, fontSize: 14),
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: codeController,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 5,
+              ),
+              decoration: InputDecoration(
+                counterText: "",
+                filled: true,
+                fillColor: AppColor.lightGrey,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none,
+                ),
+                hintText: "1234",
+                hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Отмена", style: TextStyle(color: Colors.grey)),
+          ),
+          // Используем твой RedBorderButton или обычный ElevatedButton
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColor.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () {
+              if (codeController.text.length > 4) {
+                Navigator.pop(context); // Закрываем диалог
+
+                // Переходим в лобби
+                RouterService.routeFade(
+                  context,
+                  JoinGameScreen(availableObjects: modelsList),
+                );
+              }
+            },
+            child: const Text("Войти", style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
     );
   }

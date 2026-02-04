@@ -14,7 +14,7 @@ final ObjectModel nesvizhCastle = ObjectModel(
   oY: 26.6914,
   about:
       "Несвижский замок — бывшая резиденция князей Радзивиллов, архитектурный ансамбль XVI–XVIII веков. Один из главных туристических объектов Беларуси.",
-  typeName: "Дворец",
+  typeName: "Замок",
   imageBit: i4,
 );
 
@@ -42,7 +42,7 @@ final ObjectModel belovezhskayaPushcha = ObjectModel(
   oY: 23.8343,
   about:
       "Беловежская пуща — национальный парк и объект ЮНЕСКО. Один из последних и крупнейших сохранившихся участков первобытного леса в Европе.",
-  typeName: "Национальный парк",
+  typeName: "Парк",
   imageBit: i2,
 );
 

@@ -161,6 +161,7 @@ class _CabScreenState extends State<CabScreen> {
                   image: user.image != null
                       ? DecorationImage(
                           image: MemoryImage(base64Decode(user.image!)),
+                          fit: .cover,
                         )
                       : null,
                 ),

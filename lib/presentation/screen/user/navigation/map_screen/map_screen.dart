@@ -112,11 +112,13 @@ class _MapScreenState extends State<MapScreen> {
                   },
                 ),
               ),
-              if (state.objectScreenState)
+              if (state.objectScreenState) // <--
                 Positioned.fill(
-                  child: DetailObjectScreen(
-                    model: state.model,
-                    key: ValueKey(state.model?.id),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: state.objectScreenState
+                        ? DetailObjectScreen(model: state.model)
+                        : const SizedBox.shrink(),
                   ),
                 ),
               Padding(
