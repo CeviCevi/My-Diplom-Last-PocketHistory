@@ -5,6 +5,14 @@ import 'package:history/data/service/cache_service/cache_service.dart';
 import 'package:history/domain/model/user_model/user_model.dart';
 
 class UserService {
+  Future<List<UserModel>> getUserList() async {
+    return userList;
+  }
+
+  Future<void> delete(UserModel user) async {
+    userList.remove(user);
+  }
+
   Future<UserModel?> getUserById(int id) async {
     var data = userList.where((element) => element.id == id);
     return data.isNotEmpty ? data.first : null;

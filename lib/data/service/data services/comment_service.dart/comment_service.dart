@@ -27,7 +27,7 @@ class CommentService {
     commentList.add(comment);
   }
 
-  Future<void> removeComment(CommentModel comment) async {
+  Future<void> delete(CommentModel comment) async {
     commentList.remove(comment);
   }
 }

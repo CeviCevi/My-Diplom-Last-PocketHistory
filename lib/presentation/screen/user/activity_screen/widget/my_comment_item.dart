@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:history/const/style/app_color.dart';
-import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/data/service/data%20services/comment_service.dart/comment_service.dart';
 import 'package:history/data/service/data%20services/object_service/object_service.dart';
+import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/data/service/text_service/date_formatter_service.dart';
 import 'package:history/domain/model/comment_model/comment_model.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
@@ -86,7 +86,7 @@ class MyCommentCard extends StatelessWidget {
                     TextButton(
                       onPressed: () async {
                         RouterService.back(context);
-                        await CommentService().removeComment(comment);
+                        await CommentService().delete(comment);
                         removeComment?.call();
                         modernToast(context);
                       },

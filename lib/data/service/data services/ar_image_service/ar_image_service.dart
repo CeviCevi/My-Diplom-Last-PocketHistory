@@ -15,6 +15,14 @@ class ArImageService {
     arImageList.add(model);
   }
 
+  Future<void> delete(ArImageModel model) async {
+    arImageList.remove(model);
+  }
+
+  Future<List<ArImageModel>> getImageList() async {
+    return arImageList;
+  }
+
   Future<void> update(ArImageModel model) async {
     int index = arImageList.indexWhere((element) => element.id == model.id);
 

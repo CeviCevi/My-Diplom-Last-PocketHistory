@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/presentation/screen/admin/navigation/db_screen/admin_db_screen.dart';
+import 'package:history/presentation/screen/admin/navigation/moder_screen/moder_screen.dart';
 
 class AdminNavigationScreen extends StatefulWidget {
   const AdminNavigationScreen({super.key});
@@ -14,10 +15,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
   int _currentIndex = 0;
 
   // Список экранов для админа
-  final List<Widget> _screens = [
-    AdminDatabaseScreen(),
-    const Center(child: Text("Экран Модерации")),
-  ];
+  final List<Widget> _screens = [AdminDbScreen(), ModerScreen()];
 
   // Элементы навигации
   final List<BottomNavigationBarItem> barItems = [
@@ -36,17 +34,6 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Можно добавить AppBar специально для админа, чтобы всегда видеть статус
-      appBar: AppBar(
-        title: Text(
-          _currentIndex == 0 ? "Управление данными" : "Проверка контента",
-          style: GoogleFonts.manrope(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0.5,
-        centerTitle: true,
-      ),
       body: IndexedStack(
         // Используем IndexedStack для сохранения состояния вкладок
         index: _currentIndex,

@@ -27,6 +27,10 @@ class ObjectService {
     return modelsList;
   }
 
+  Future<List<ObjectModel>> getOffer() async {
+    return offerList;
+  }
+
   Future<List<LatLng>> getChords({List<ObjectModel>? objects}) async {
     if (objects != null) return objects.map((o) => LatLng(o.oX, o.oY)).toList();
     return modelsList.map((o) => LatLng(o.oX, o.oY)).toList();
@@ -101,5 +105,17 @@ class ObjectService {
 
       return score >= 60;
     }).toList();
+  }
+
+  Future<void> delete(ObjectModel object) async {
+    modelsList.remove(object);
+  }
+
+  Future<void> deleteOffer(ObjectModel object) async {
+    offerList.remove(object);
+  }
+
+  Future<void> addOfferToModels(ObjectModel object) async {
+    modelsList.add(object);
   }
 }
