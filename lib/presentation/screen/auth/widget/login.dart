@@ -117,8 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() => isLoading = true);
 
                       final success = await UserService().login(
-                        password,
                         email,
+                        password,
                       );
 
                       if (success) {

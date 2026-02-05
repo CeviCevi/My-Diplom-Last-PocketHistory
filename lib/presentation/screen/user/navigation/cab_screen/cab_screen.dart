@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:history/const/security/user.dart';
 import 'package:history/const/style/app_style.dart';
+import 'package:history/const/text/app_key.dart';
 import 'package:history/const/text/app_path.dart';
 import 'package:history/data/service/cache_service/cache_service.dart';
+import 'package:history/data/service/data%20services/achive_service/achive_service.dart';
 import 'package:history/data/service/router_service/router_service.dart';
 import 'package:history/presentation/screen/app/object/create_object/create_object.dart';
 import 'package:history/presentation/screen/auth/auth_screen.dart';
@@ -70,8 +72,19 @@ class _CabScreenState extends State<CabScreen> {
                     ),
                     SizedBox(height: 55),
                     GestureDetector(
-                      onDoubleTap: () =>
-                          achievementToast(context, message: "Исследователь"),
+                      onDoubleTap: () async {
+                        if (await AchiveService().setUserAchiveById(
+                          userId:
+                              CacheService.instance.getInt(
+                                AppKey.userInSystem,
+                              ) ??
+                              0,
+                          achiveId: 2,
+                        )) {
+                          achievementToast(context);
+                        }
+                      },
+
                       child: Text(
                         "${user.name} ${user.surname}",
                         style: AppStyle.main.copyWith(fontSize: 18),

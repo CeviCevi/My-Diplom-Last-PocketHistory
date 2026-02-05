@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:history/const/style/app_color.dart';
 import 'package:history/const/text/app_path.dart';
+import 'package:history/data/service/data%20services/achive_service/achive_service.dart';
+import 'package:history/data/service/data%20services/ar_image_service/ar_image_service.dart';
+import 'package:history/data/service/data%20services/comment_service.dart/comment_service.dart';
+import 'package:history/data/service/data%20services/marker_service/marker_service.dart';
+import 'package:history/data/service/data%20services/object_service/object_service.dart';
+import 'package:history/data/service/data%20services/user_service/user_service.dart';
 import 'package:history/presentation/screen/auth/widget/base_auth.dart';
 import 'package:history/presentation/screen/auth/widget/login.dart';
 import 'package:history/presentation/screen/auth/widget/reg.dart';
@@ -55,6 +61,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
     ),
   ];
+
+  Future<void> getAsunc() async {
+    UserService().initUsers();
+    ObjectService().initDatabase();
+    MarkerService().initMarkers();
+    CommentService().initComments();
+    ArImageService().initArImages();
+    AchiveService().initAchievements();
+  }
+
+  @override
+  void initState() {
+    getAsunc();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

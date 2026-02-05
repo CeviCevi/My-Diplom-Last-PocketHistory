@@ -60,7 +60,7 @@ final ObjectModel victorySquare = ObjectModel(
   imageBit: i1,
 );
 
-final List<ObjectModel> modelsList = [
+List<ObjectModel> modelsList = [
   victorySquare,
   belovezhskayaPushcha,
   mirCastle,

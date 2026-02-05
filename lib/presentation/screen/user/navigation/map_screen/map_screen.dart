@@ -27,13 +27,12 @@ class _MapScreenState extends State<MapScreen> {
     null,
   ];
 
-  final List<String> types = ["Замки", "Театры", "Монументы", "Подробнее"];
+  final List<String> types = ["Замки", "Театры", "Парки"];
   List<bool?> isActive = [false, false, false, null];
   late final List<GestureTapCallback?> functions = [
     () => getActivity(0),
     () => getActivity(1),
     () => getActivity(2),
-    () {},
   ];
 
   bool seeBorder = true;

@@ -32,4 +32,25 @@ class UserModel {
       image: image ?? this.image,
     );
   }
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      surname: json['surname'] as String,
+      email: json['email'] as String,
+      password: json['password'] as String,
+      image: json['image'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'surname': surname,
+      'email': email,
+      'password': password,
+      'image': image,
+    };
+  }
 }

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:history/const/fish/db/db_fish.dart';
 import 'package:history/const/style/app_color.dart';
+import 'package:history/const/text/app_path.dart';
 import 'package:history/data/service/data%20services/object_service/object_service.dart';
 import 'package:history/data/service/router_service/router_service.dart';
+import 'package:history/domain/model/ar_image_model/ar_image_model.dart';
 import 'package:history/domain/model/object_model/object_model.dart';
 import 'package:history/presentation/screen/app/object/edit_object/edit_object.dart';
 
@@ -121,19 +123,25 @@ class _ObjectDbScreenState extends State<ObjectDbScreen> {
           // КНОПКА РЕДАКТИРОВАНИЯ
           CupertinoButton(
             padding: EdgeInsets.zero,
-            onPressed: () => RouterService.routeFade(
-              context,
-              EditObjectScreen(
-                initialObject: item,
-                initialArImage: arImageList
-                    .where((e) => e.objectId == item.id)
-                    .toList()
-                    .first,
-                initialMarkers: markerList
-                    .where((element) => element.objectId == item.id)
-                    .toList(),
-              ),
-            ),
+            onPressed: () {
+              var a = arImageList.where((e) => e.objectId == item.id).toList();
+              RouterService.routeFade(
+                context,
+                EditObjectScreen(
+                  initialObject: item,
+                  initialArImage: a.isNotEmpty
+                      ? a.first
+                      : ArImageModel(
+                          id: 0,
+                          objectId: 0,
+                          image: AppPath.imageBg,
+                        ),
+                  initialMarkers: markerList
+                      .where((element) => element.objectId == item.id)
+                      .toList(),
+                ),
+              );
+            },
             child: Container(
               width: 45,
               height: double.infinity,
