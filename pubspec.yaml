@@ -39,3 +39,13 @@ flutter:
   assets:
     - assets/app/
     - assets/icon/
+
+icons_launcher:
+  image_path: "assets/app/logo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    windows:
+      enable: true
