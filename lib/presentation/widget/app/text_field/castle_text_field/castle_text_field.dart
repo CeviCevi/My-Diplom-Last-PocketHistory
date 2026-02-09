@@ -125,9 +125,11 @@ class _CastleTextFieldState extends State<CastleTextField> {
               ),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: widget.searhObj
-                    ? Icon(Icons.home_outlined, color: AppColor.red)
-                    : const Center(),
+                child: AnimatedScale(
+                  scale: widget.searhObj ? 1 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  child: Icon(Icons.home_outlined, color: AppColor.red),
+                ),
               ),
             ),
           ),

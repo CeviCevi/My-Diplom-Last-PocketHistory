@@ -28,7 +28,7 @@ class _MapScreenState extends State<MapScreen> {
   ];
 
   final List<String> types = ["Замки", "Театры", "Парки"];
-  List<bool?> isActive = [false, false, false, null];
+  List<bool?> isActive = [false, false, false];
   late final List<GestureTapCallback?> functions = [
     () => getActivity(0),
     () => getActivity(1),
@@ -137,25 +137,48 @@ class _MapScreenState extends State<MapScreen> {
                       duration: Duration(milliseconds: 200),
                       width: MediaQuery.of(context).size.width,
                       height: state.objectScreenState ? 0 : 51,
-                      child: ListView.builder(
-                        scrollDirection: .horizontal,
-                        itemCount: types.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: .fromLTRB(
-                            index == 0 ? 20 : 10,
-                            8,
-                            index == types.length - 1 ? 20 : 0,
-                            8,
-                          ),
-                          child: TikTakButton(
-                            function: functions[index],
-                            icon: icons[index],
-                            text: types[index],
-                            colorIndex: index,
-                            isActive: isActive[index],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const .symmetric(horizontal: 20),
+                          child: Row(
+                            spacing: 10,
+                            mainAxisAlignment: .spaceBetween,
+                            children: List.generate(
+                              3,
+                              (index) => TikTakButton(
+                                function: functions[index],
+                                icon: icons[index],
+                                text: types[index],
+                                colorIndex: index,
+                                isActive: isActive[index],
+                                isSmall: state.objectScreenState,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+
+                      //  ListView.builder(
+                      //   scrollDirection: .horizontal,
+                      //   itemCount: types.length,
+                      //   itemBuilder: (context, index) => Padding(
+                      //     padding: .fromLTRB(
+                      //       index == 0 ? 20 : 10,
+                      //       8,
+                      //       index == types.length - 1 ? 20 : 0,
+                      //       8,
+                      //     ),
+                      //     child: TikTakButton(
+                      //       function: functions[index],
+                      //       icon: icons[index],
+                      //       text: types[index],
+                      //       colorIndex: index,
+                      //       isActive: isActive[index],
+                      //       isSmall: state.objectScreenState,
+                      //     ),
+                      //   ),
+                      // ),
                     ),
                   ],
                 ),

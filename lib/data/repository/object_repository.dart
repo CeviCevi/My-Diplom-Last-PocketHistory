@@ -63,20 +63,14 @@ class ObjectRepository {
   }
 
   // Прямое добавление объекта (например, админом или для синхронизации)
-  Future<void> addObject(ObjectModel object) async {
-    try {
-      final data = object.toJson();
-
-      // ВАЖНО: Если мы генерируем ID на клиенте (как ты делаешь в статических списках),
-      // то мы НЕ удаляем его, чтобы ID в базе и в статике совпали.
-      // Но в таблице Supabase тип ID должен быть 'int8' (не identity),
-      // либо нужно позволять вставку своего ID.
-
-      await _supabase.from('objects').insert(data);
-    } catch (e) {
-      print("Ошибка при фоновом добавлении объекта: $e");
+    Future<void> addObject(ObjectModel object) async {
+      try {
+        final data = object.toJson();
+        await _supabase.from('objects').insert(data);
+      } catch (e) {
+        print("Ошибка при добавлении объекта: $e");
+      }
     }
-  }
 
   Future<List<ObjectModel>> getAllObjects() async {
     try {

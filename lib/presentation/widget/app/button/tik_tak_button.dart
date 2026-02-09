@@ -9,6 +9,7 @@ class TikTakButton extends StatelessWidget {
   final Color color;
   final int? colorIndex;
   final bool? isActive;
+  final bool isSmall;
 
   const TikTakButton({
     super.key,
@@ -19,6 +20,7 @@ class TikTakButton extends StatelessWidget {
     this.color = AppColor.red,
     this.colorIndex,
     this.isActive = false,
+    this.isSmall = false,
   });
 
   static List<Color> pastelColors = [
@@ -45,7 +47,6 @@ class TikTakButton extends StatelessWidget {
         onTap: function,
         borderRadius: .circular(17),
         child: AnimatedContainer(
-          height: 10,
           duration: Duration(milliseconds: 300),
           padding: icon != null ? padding : const .symmetric(horizontal: 15),
           decoration: BoxDecoration(
@@ -58,20 +59,29 @@ class TikTakButton extends StatelessWidget {
           child: Row(
             children: [
               if (icon != null) ...[
-                Icon(
-                  icon,
-                  size: 20,
-                  color: colorIndex != null
-                      ? pastelColors[colorIndex! % pastelColors.length]
-                      : color,
+                AnimatedScale(
+                  scale: isSmall ? 0.0 : 1.0,
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.easeInOut,
+                  child: Icon(
+                    icon,
+                    size: 20,
+                    color: colorIndex != null
+                        ? pastelColors[colorIndex! % pastelColors.length]
+                        : color,
+                  ),
                 ),
                 SizedBox(width: 5),
               ],
               Center(
-                child: Text(
-                  text,
-                  textAlign: .center,
-                  style: TextStyle(color: AppColor.grey, fontWeight: .w500),
+                child: AnimatedDefaultTextStyle(
+                  style: TextStyle(
+                    color: AppColor.grey,
+                    fontWeight: .w500,
+                    fontSize: isSmall ? 0.0 : 14.0,
+                  ),
+                  duration: Duration(milliseconds: 150),
+                  child: Text(text, textAlign: .center),
                 ),
               ),
             ],

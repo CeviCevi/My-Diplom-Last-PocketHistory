@@ -151,7 +151,7 @@ class _ObjScrState extends State<ObjScr> {
                     color: Colors.green,
                     onPressed: () async {
                       await ObjectService().addOfferToModels(item);
-                      await ObjectService().deleteOffer(item);
+                      //await ObjectService().deleteOffer(item);
                       _loadData(); // Обновляем список
                     },
                   ),
